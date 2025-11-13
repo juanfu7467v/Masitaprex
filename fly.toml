@@ -1,0 +1,43 @@
+# Este archivo configura cómo Fly.io despliega y ejecuta tu aplicación.
+
+# ¡IMPORTANTE! Reemplaza "masitaprex-app-unique" con un nombre único para tu aplicación
+# en Fly.io. Por ejemplo: "mi-web-profesional-2025"
+app = "masitaprex-app-unique"
+primary_region = "iad" # Puedes cambiar esto a la región más cercana a ti (ej: "scl" para Santiago, "gru" para Sao Paulo, "mia" para Miami)
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  # Fly.io automáticamente usará el Dockerfile que se encuentra en la misma carpeta.
+
+# Configuración del servicio principal (HTTP/HTTPS)
+[[services]]
+  # Protocolo usado dentro de Fly.io
+  protocol = "tcp"
+  # El puerto interno que usa Nginx (definido en el Dockerfile)
+  internal_port = 80
+  processes = ["app"]
+  
+  # Puerto 80 para tráfico HTTP. Fly.io maneja la redirección a HTTPS.
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    
+  # Puerto 443 para tráfico HTTPS. Es el puerto por defecto para sitios seguros.
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    soft_limit = 250
+    hard_limit = 300
+    
+  # Chequeo de salud: asegura que el servidor Nginx esté corriendo
+  [[services.http_checks]]
+    interval = "10s"
+    timeout = "2s"
+    grace_period = "5s"
+    path = "/" # Chequea la página de inicio
+    method = "GET"
