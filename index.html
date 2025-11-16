@@ -17,6 +17,10 @@
             background-size: cover;
             background-position: center;
         }
+        /* Clase para la transición de la sidebar */
+        #menu-panel {
+            transition: transform 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -48,7 +52,7 @@
     <div id="mobile-menu" class="fixed inset-0 z-40 hidden md:hidden">
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity" onclick="toggleMenu()"></div>
 
-        <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto transition duration-300 transform translate-x-full" id="menu-panel">
+        <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto z-50 transform translate-x-full" id="menu-panel">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-bold text-indigo-600">Navegación</h3>
@@ -79,7 +83,7 @@
                         Centro de Ayuda y Soporte
                     </a>
                     <hr class="border-gray-200">
-                    <a href="auth.html" onclick="toggleMenu()" class="block p-2 rounded-lg bg-indigo-500 text-white text-center hover:bg-indigo-600 transition duration-150 font-bold flex items-center justify-center">
+                    <a href="auth.html" onclick="toggleMenu()" class="block p-2 rounded-lg bg-indigo-600 text-white text-center hover:bg-indigo-700 transition duration-150 font-bold flex items-center justify-center">
                          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.56 0 4.96.906 6.879 2.414M12 12a4 4 0 100-8 4 4 0 000 8zm0 0l-1.5 1.5M12 12l1.5 1.5"></path></svg>
                         Mi Cuenta / Iniciar Sesión
                     </a>
@@ -232,18 +236,23 @@
             const isHidden = mobileMenu.classList.contains('hidden');
             
             if (isHidden) {
+                // Muestra el overlay y el panel
                 mobileMenu.classList.remove('hidden');
+                // Usa un timeout pequeño para forzar la transición después de cambiar display
                 setTimeout(() => {
                     menuPanel.classList.remove('translate-x-full');
                 }, 10);
             } else {
+                // Oculta el panel con la animación
                 menuPanel.classList.add('translate-x-full');
+                // Espera a que termine la animación antes de ocultar el overlay completamente
                 setTimeout(() => {
                     mobileMenu.classList.add('hidden');
-                }, 300); // Coincide con la duración de la transición CSS
+                }, 300); // 300ms debe coincidir con la duración de la transición CSS
             }
         }
         
+        // Asocia el botón de hamburguesa con la función de toggle
         menuToggle.addEventListener('click', toggleMenu);
         
         // Asegurar que el menú se cierre al cambiar el tamaño (de móvil a desktop)
