@@ -3,229 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASITAPREX | Dashboard</title>
+    <title>MASITAPREX | Soluciones Digitales</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         /* Usando la fuente Inter para un aspecto profesional */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Fondo de dashboard */
+            background-color: #f8f9fa; /* Fondo muy claro */
         }
-        /* Estilos específicos del Sidebar para controlar la transición */
-        #sidebar {
-            transition: transform 0.3s ease-in-out;
-            width: 256px; /* Ancho fijo del sidebar */
-        }
-        .sidebar-item:hover {
-            background-color: #4f46e5; /* Indigo-600 */
-            color: white;
-        }
-        .sidebar-item-active {
-            background-color: #4f46e5; /* Indigo-600 */
-            color: white;
-            font-weight: 600;
-        }
-        .avatar-container {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        .avatar-container img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
+        .hero-section {
+            background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('https://placehold.co/1920x1080/000000/FFFFFF?text=Fondo+Profesional');
+            background-size: cover;
+            background-position: center;
         }
     </style>
 </head>
-<body class="antialiased flex h-screen overflow-hidden">
+<body class="antialiased">
 
-    <aside id="sidebar" class="bg-gray-800 text-white flex-shrink-0 z-50 transform -translate-x-full md:translate-x-0 fixed md:static h-full">
-        <div class="p-6 flex flex-col h-full">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold text-indigo-600 tracking-tight">MASITAPREX</a>
             
-            <div class="mb-8 border-b border-gray-700 pb-4">
-                <a href="#" class="text-2xl font-extrabold text-indigo-400 tracking-tight">MASITAPREX</a>
-            </div>
-
-            <nav class="flex-grow space-y-2">
-                
-                <a href="#" class="sidebar-item sidebar-item-active flex items-center p-3 rounded-lg text-sm transition duration-150">
-                    <span class="material-icons mr-3">home</span>
-                    Inicio
-                </a>
-                
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-sm transition duration-150 text-gray-400 hover:text-white">
-                    <span class="material-icons mr-3">storefront</span>
-                    Tienda Apps
-                </a>
-                
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-sm transition duration-150 text-gray-400 hover:text-white">
-                    <span class="material-icons mr-3">code</span>
-                    Developer Console
-                </a>
-
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-sm transition duration-150 text-gray-400 hover:text-white">
-                    <span class="material-icons mr-3">message</span>
-                    Autoresponder WhatsApp
-                </a>
+            <nav class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a href="#inicio" class="hover:text-indigo-600 transition duration-150">Inicio</a>
+                <a href="#tienda-apps" class="hover:text-indigo-600 transition duration-150">Tienda Apps</a>
+                <a href="#dev-console" class="hover:text-indigo-600 transition duration-150">Developer Console</a>
+                <a href="#autoresponder" class="hover:text-indigo-600 transition duration-150">Autoresponder WhatsApp</a>
+                <a href="#soporte" class="hover:text-indigo-600 transition duration-150">Centro de Ayuda y Soporte</a>
             </nav>
 
-            <div class="border-t border-gray-700 my-4"></div>
-
-            <div class="space-y-2 mb-4">
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-sm transition duration-150 text-gray-400 hover:text-white">
-                    <span class="material-icons mr-3">help_center</span>
-                    Centro de Ayuda y Soporte
+            <div class="flex items-center space-x-4">
+                <a href="auth.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition duration-300 shadow-lg shadow-indigo-500/50 hidden sm:block">
+                    Mi Cuenta / Iniciar Sesión
                 </a>
-
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-sm transition duration-150 text-gray-400 hover:text-white">
-                    <span class="material-icons mr-3">settings</span>
-                    Mi Cuenta
-                </a>
-            </div>
-
-            <div class="mt-auto pt-4 border-t border-gray-700">
-                <div class="flex items-center justify-between p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition duration-150">
-                    <div class="flex items-center">
-                        <div class="avatar-container mr-3">
-                            <img src="https://ui-avatars.com/api/?name=MP&background=4f46e5&color=fff&size=60&rounded=true&font-size=0.4" alt="Avatar de Usuario">
-                        </div>
-                        <div class="text-sm">
-                            <p class="font-semibold text-white">Usuario Demo</p>
-                            <p class="text-xs text-gray-400">demo@masitaprex.com</p>
-                        </div>
-                    </div>
-                    <button title="Cerrar Sesión" class="text-gray-400 hover:text-red-400 p-1 rounded-full transition duration-150">
-                        <span class="material-icons text-xl">logout</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <div class="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
-        
-        <header class="bg-white shadow-sm sticky top-0 z-40">
-            <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center h-16">
                 
                 <button id="menu-toggle" class="md:hidden text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition duration-150">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
-                
-                <h1 class="text-xl font-semibold text-gray-800 hidden md:block">Inicio del Dashboard</h1>
-                
-                <a href="auth.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition duration-300 shadow-lg shadow-indigo-500/50 flex items-center">
-                    <span class="material-icons text-lg mr-2">login</span>
-                    Iniciar Sesión
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 hidden md:hidden">
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity" onclick="toggleMenu()"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto transition duration-300 transform translate-x-full" id="menu-panel">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-indigo-600">Navegación</h3>
+                    <button class="text-gray-500 hover:text-gray-700" onclick="toggleMenu()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <nav class="space-y-4 font-medium text-gray-700">
+                    <a href="#inicio" onclick="toggleMenu()" class="block p-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3"></path></svg>
+                        Inicio
+                    </a>
+                    <a href="#tienda-apps" onclick="toggleMenu()" class="block p-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        Tienda Apps
+                    </a>
+                    <a href="#dev-console" onclick="toggleMenu()" class="block p-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        Developer Console
+                    </a>
+                    <a href="#autoresponder" onclick="toggleMenu()" class="block p-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.669A9.956 9.956 0 0112 4c4.97 0 9 3.582 9 8z"></path></svg>
+                        Autoresponder WhatsApp
+                    </a>
+                    <a href="#soporte" onclick="toggleMenu()" class="block p-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 0a2 2 0 102.828 2.828m-2.828-2.828L5.636 18.364m0 0a2 2 0 102.828 2.828m-2.828-2.828l3.536-3.536m-4.243-4.243a8 8 0 1111.314 0l-4.243 4.243z"></path></svg>
+                        Centro de Ayuda y Soporte
+                    </a>
+                    <hr class="border-gray-200">
+                    <a href="auth.html" onclick="toggleMenu()" class="block p-2 rounded-lg bg-indigo-500 text-white text-center hover:bg-indigo-600 transition duration-150 font-bold flex items-center justify-center">
+                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.56 0 4.96.906 6.879 2.414M12 12a4 4 0 100-8 4 4 0 000 8zm0 0l-1.5 1.5M12 12l1.5 1.5"></path></svg>
+                        Mi Cuenta / Iniciar Sesión
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        
+        <section id="inicio" class="hero-section text-white py-24 md:py-36">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight mb-4">
+                    Transformamos Ideas en <span class="text-indigo-400">Software de Alto Rendimiento</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Tu solución digital completa: desarrollo de apps, diseño web profesional y optimización de infraestructura en la nube.
+                </p>
+                <a href="#servicios" class="bg-indigo-600 text-white text-lg font-semibold px-8 py-3 rounded-xl hover:bg-indigo-700 transition duration-300 shadow-xl shadow-indigo-600/50 transform hover:scale-105 inline-block">
+                    Ver Nuestros Servicios
                 </a>
             </div>
-        </header>
+        </section>
 
-        <main class="p-6 sm:p-10 space-y-6">
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Usuarios Activos</p>
-                            <p class="text-3xl font-bold text-gray-900 mt-1">45.2K</p>
-                        </div>
-                        <div class="text-indigo-500 p-3 rounded-full bg-indigo-100">
-                            <span class="material-icons text-3xl">people</span>
-                        </div>
-                    </div>
+        <section id="servicios" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-indigo-600 font-semibold uppercase tracking-wider">NUESTROS PILARES</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Lo que Ofrecemos</h2>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-green-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Apps Desplegadas</p>
-                            <p class="text-3xl font-bold text-gray-900 mt-1">1,200</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                        <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 shadow-lg">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                         </div>
-                        <div class="text-green-500 p-3 rounded-full bg-green-100">
-                            <span class="material-icons text-3xl">cloud_queue</span>
-                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Desarrollo Web Moderno</h3>
+                        <p class="text-gray-600">Creación de sitios y aplicaciones web rápidos, seguros y completamente optimizados para motores de búsqueda (SEO) y móviles. Utilizamos las últimas tecnologías.</p>
                     </div>
-                </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-yellow-500">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Tickets Pendientes</p>
-                            <p class="text-3xl font-bold text-gray-900 mt-1">12</p>
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                        <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 shadow-lg">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.973 4 4 0 00-6.894-3.527M13 13l-4 4m0 0l-4-4m4 4V5"></path></svg>
                         </div>
-                        <div class="text-yellow-500 p-3 rounded-full bg-yellow-100">
-                            <span class="material-icons text-3xl">contact_support</span>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Infraestructura y Cloud</h3>
+                        <p class="text-gray-600">Configuración avanzada de Fly.io, AWS y Google Cloud para asegurar escalabilidad, alta disponibilidad y un rendimiento ultra rápido en cualquier parte del mundo.</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
+                        <div class="mb-4 flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 shadow-lg">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.224a1 1 0 00-.77 0l-6 2A1 1 0 003 5.922V18.1a1 1 0 00.912.986l6-2A1 1 0 0011 17.068V3.932a1 1 0 00-.951-.708zM20 19.1V5.9a1 1 0 00-.951-.986l-6-2A1 1 0 0012 3.932v13.136a1 1 0 00.951.986l6 2a1 1 0 001.099-.186z"></path></svg>
                         </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Experiencia de Usuario (UX/UI)</h3>
+                        <p class="text-gray-600">Diseño centrado en el usuario. Creamos interfaces intuitivas y agradables que no solo se ven bien, sino que impulsan la conversión y la retención.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Rendimiento General de la Plataforma</h2>
-                    <img src="https://placehold.co/1200x400/e0e7ff/312e81?text=Gr%C3%A1fico+de+Uso" alt="Gráfico de Rendimiento" class="w-full h-auto rounded-lg">
+        <section id="acerca" class="py-16 md:py-24 bg-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="md:grid md:grid-cols-2 md:gap-12 items-center">
+                    <div class="mb-8 md:mb-0">
+                        <img class="rounded-2xl shadow-2xl w-full h-auto object-cover" src="https://placehold.co/600x400/312e81/ffffff?text=Equipo+Profesional" alt="Equipo de trabajo profesional de MASITAPREX">
+                    </div>
+                    <div>
+                        <span class="text-indigo-600 font-semibold uppercase tracking-wider">NUESTRA PROMESA</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-6">Por Qué Elegir MASITAPREX</h2>
+                        <ul class="space-y-4 text-gray-700">
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-indigo-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>**Innovación Constante:** Siempre usamos las herramientas más eficientes y modernas para tu proyecto.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-indigo-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V4m0 12v-4"></path></svg>
+                                <span>**Transparencia Total:** Desde la cotización hasta el despliegue en Fly.io, sabes exactamente dónde está tu proyecto.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-indigo-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>**Enfoque en Resultados:** Nuestro objetivo es que tu inversión digital se traduzca en éxito y crecimiento.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">¿Listo para Empezar?</h2>
+                    <p class="text-lg text-gray-600 mb-8">
+                        Cuéntanos sobre tu proyecto. Un miembro de nuestro equipo te contactará en menos de 24 horas.
+                    </p>
+                    <a href="mailto:contacto@masitaprex.com" class="bg-indigo-600 text-white text-lg font-semibold px-8 py-3 rounded-xl hover:bg-indigo-700 transition duration-300 shadow-xl shadow-indigo-600/50 transform hover:scale-105 inline-block">
+                        Enviar un Mensaje
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <div>
+                    <h4 class="text-xl font-extrabold text-indigo-400 mb-4">MASITAPREX</h4>
+                    <p class="text-gray-400 text-sm">Creando la próxima generación de experiencias digitales. Innovación y calidad en cada línea de código.</p>
                 </div>
 
-                <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-lg">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Últimas Actividades</h2>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <div class="avatar-container bg-indigo-100 mr-3">
-                                <img src="https://ui-avatars.com/api/?name=AP&background=22c55e&color=fff&size=60&rounded=true&font-size=0.4" alt="Avatar App">
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-800">Nueva app desplegada</p>
-                                <p class="text-sm text-gray-500">App "Project Alpha" lanzada por Jane Doe.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="avatar-container bg-indigo-100 mr-3">
-                                <img src="https://ui-avatars.com/api/?name=JD&background=ef4444&color=fff&size=60&rounded=true&font-size=0.4" alt="Avatar Dev">
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-800">Error crítico</p>
-                                <p class="text-sm text-gray-500">Error en el autoresponder de la región sur.</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="avatar-container bg-indigo-100 mr-3">
-                                <img src="https://ui-avatars.com/api/?name=CN&background=3b82f6&color=fff&size=60&rounded=true&font-size=0.4" alt="Avatar User">
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-800">Nuevo registro</p>
-                                <p class="text-sm text-gray-500">Christian Navarro creó una cuenta.</p>
-                            </div>
-                        </li>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Navegación</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#inicio" class="hover:text-indigo-400 transition">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-indigo-400 transition">Servicios</a></li>
+                        <li><a href="#acerca" class="hover:text-indigo-400 transition">Acerca de Nosotros</a></li>
                     </ul>
                 </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Legal</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-indigo-400 transition">Términos de Servicio</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-white">Contacto</h4>
+                    <p class="text-gray-400 text-sm">Email: <a href="mailto:contacto@masitaprex.com" class="hover:text-indigo-400 transition">contacto@masitaprex.com</a></p>
+                    <p class="text-gray-400 text-sm">Teléfono: +1 (555) 123-4567</p>
+                </div>
             </div>
-            
-        </main>
-        
-        <footer class="p-4 text-center text-sm text-gray-500 border-t bg-white mt-auto">
-            &copy; 2025 MASITAPREX. Desarrollado con ❤️ y Tailwind CSS.
-        </footer>
-    </div>
+
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+                &copy; 2025 MASITAPREX. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
     
     <script>
         const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.getElementById('sidebar');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuPanel = document.getElementById('menu-panel');
 
-        menuToggle.addEventListener('click', () => {
-            // Alterna la clase 'translate-x-full' en móviles para mostrar/ocultar el menú
-            sidebar.classList.toggle('-translate-x-full');
-        });
-
-        // Opcional: Cerrar el menú si se hace clic fuera de él en móviles (más complejo, pero esencial)
-        document.body.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.add('-translate-x-full');
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    menuPanel.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                menuPanel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300); // Coincide con la duración de la transición CSS
             }
-        }, true);
+        }
+        
+        menuToggle.addEventListener('click', toggleMenu);
+        
+        // Asegurar que el menú se cierre al cambiar el tamaño (de móvil a desktop)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) { // 768px es el breakpoint 'md' de Tailwind
+                mobileMenu.classList.add('hidden');
+                menuPanel.classList.add('translate-x-full');
+            }
+        });
     </script>
 </body>
 </html>
