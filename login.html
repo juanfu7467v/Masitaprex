@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso a Consulta PE</title>
+  <title>Acceso al Sistema</title>
   <style>
     /* Variables CSS para la paleta de colores */
     :root {
@@ -39,6 +39,7 @@
         color: var(--text-dark);
         /* ESTILOS PARA CENTRADO EN ESCRITORIO */
         display: flex;
+        flex-direction: column; /* Cambiado a columna para permitir centrar el contenedor y el footer */
         justify-content: center;
         align-items: center;
         min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
@@ -48,7 +49,7 @@
         box-sizing: border-box;
         position: relative; /* Necesario para posicionar la imagen de fondo */
     }
-
+    
     /* === IMAGEN DE FONDO (Modo Escritorio) === */
     .background-image {
         position: fixed; /* Fija la imagen para que no se mueva con el scroll */
@@ -61,13 +62,11 @@
         opacity: 0.9; /* Opacidad sutil para no distraer */
     }
 
-
     /* === CONTENEDOR CENTRAL: Bordes degradados y Fondo Blanco === */
     .container {
         flex-grow: 0; 
         width: 100%;
         max-width: 450px; 
-        /* Eliminado 'margin: 40px auto;' para que el centrado de Flexbox funcione */
         height: auto; 
         padding: 40px; 
         box-sizing: border-box;
@@ -460,6 +459,7 @@
             min-height: auto; 
             height: auto;
             display: block; /* Desactiva flex para el centrado */
+            padding-bottom: 20px; /* Espacio extra en la parte inferior para que el footer no se pegue */
         }
         
         /* Oculta la imagen de fondo en móviles para mejor rendimiento y experiencia */
@@ -529,43 +529,30 @@
             margin-left: calc(-1 * min(150px, (100% - 40px) / 2));
             bottom: 110%;
         }
+        
+        /* AJUSTE DEL FOOTER PARA MÓVILES */
+        .footer {
+            max-width: 100%; /* Ocupa todo el ancho en móviles */
+            padding: 25px 0; /* Padding solo vertical en móviles */
+        }
     }
 /* Pie de página */
         .footer {
             background-color: transparent;
             padding: 25px 20px;
             text-align: center;
-            color: var(--text-dark);
+            color: var(--text-dark); /* Color del texto para el footer */
             margin-top: 30px;
             font-size: 0.9em;
             line-height: 1.6;
             width: 100%; 
-            max-width: 450px; 
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 100%; /* Asegura que ocupe todo el ancho */
             box-sizing: border-box; 
-        }
-
-        .footer h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            color: var(--text-dark);
         }
 
         .footer p {
             margin: 0 0 10px;
-            color: #6c757d;
-        }
-
-        .footer a {
-            color: var(--icon-color);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .footer a:hover {
-            color: #1e88e5;
+            color: var(--text-dark); /* Color ajustado para el texto de derechos */
         }
 
         .social-icons {
@@ -663,7 +650,7 @@
         </div>
 
         <div id="register-form" class="register-form">
-            <p>Completa tu registro en consulta pe</p> 
+            <p>Completa tu registro</p> 
 
             <div class="tooltip-container">
                 <input type="text" id="register-name" placeholder="Tu nombre" class="input-field">
@@ -728,13 +715,12 @@
             <div class="pulsing-circle delay-2"></div>
         </div>
         
-        <div id="form-message-tooltip" class="form-message-tooltip"></div>
+        <div id="form-message-tooltip"></div>
 
     </div>
     
     <div class="footer">
-        <h3>Consulta PE</h3>
-        <p>Derechos Reservados © 2025. Todos los contenidos y funcionalidades son propiedad de Consulta PE.</p>
+        <p>Derechos Reservados © 2025. Todos los contenidos y funcionalidades son propiedad del Sistema.</p>
         <div class="social-icons">
             <a href="#"><span class="material-icons">facebook</span></a>
             <a href="#"><span class="material-icons">alternate_email</span></a>
