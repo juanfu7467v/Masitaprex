@@ -3,114 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso a Consulta PE</title>
+  <title>MASITAPREX | Iniciar Sesión</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
-    /* Variables CSS para la paleta de colores */
+    /* Variables CSS para la paleta de colores de MASITAPREX */
     :root {
-        --icon-color: #00e676; /* Verde vibrante para los íconos */
-        --button-gradient: linear-gradient(45deg, #1e88e5, #00e676); /* Degradado de azul a verde para botones */
-        --button-hover-gradient: linear-gradient(45deg, #00e676, #1e88e5); /* Degradado invertido para hover */
+        --primary-color: #3f51b5; /* Indigo para la identidad de la marca */
+        --primary-light: #5c70c2;
+        --secondary-color: #00e676; /* Verde vibrante para acentos/éxito */
+        --button-gradient: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+        --button-hover-gradient: linear-gradient(45deg, var(--primary-light), var(--primary-color));
         --text-dark: #333;
         --text-light: #fff;
-        --bg-light: #f8f9fa;
+        --bg-light: #f4f6f8; /* Fondo sutilmente gris */
         --card-bg: #fff;
-        --shadow-light: rgba(0, 0, 0, 0.1);
-        --border-color: #e0e0e0; /* Un gris claro para bordes */
+        --shadow-color: rgba(63, 81, 181, 0.3); /* Sombra basada en el primary color */
+        --border-color: #e0e0e0;
         --placeholder-color: #999;
         --error-color: #F44336;
-        --success-color: #8BC34A;
-        --tooltip-bg-color: #F44336; /* Color de fondo para el tooltip de error */
+        --success-color: #4CAF50;
+        --tooltip-bg-color: var(--error-color);
         --tooltip-text-color: #fff;
-        --message-error-bg: #F44336; /* Color de fondo para mensajes de error */
-        --message-success-bg: #8BC34A; /* Color de fondo para mensajes de éxito */
-        --tooltip-fixed-width: 300px; /* Ancho fijo para tooltips de información */
+        --message-error-bg: var(--error-color);
+        --message-success-bg: var(--success-color);
+        --tooltip-fixed-width: 300px; 
     }
 
     html, body {
         margin: 0;
         padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background: var(--bg-light);
         color: var(--text-dark);
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
     }
-
-    .container {
-        flex-grow: 1;
+    
+    /* Estilo del Encabezado Profesional */
+    .header-bar {
+        background-color: var(--card-bg);
+        border-bottom: 2px solid var(--border-color);
+        padding: 15px 20px;
+        text-align: center;
         width: 100%;
-        /* CAMBIO CLAVE: Limitar ancho máximo y centrar para tablets/escritorios */
-        max-width: 450px; /* Ancho máximo para la zona de contenido central */
-        margin: 0 auto; /* Centrar el contenedor en pantallas grandes */
-        height: 100%;
-        padding: 20px;
-        box-sizing: border-box;
+    }
+
+    .logo-text {
+        font-size: 1.8em;
+        font-weight: 800;
+        color: var(--primary-color);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Contenedor Principal: Asegura que el contenido esté centrado en cualquier pantalla */
+    .main-content-wrapper {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: var(--card-bg);
-        border-radius: 0;
-        box-shadow: none;
-        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        position: relative;
+        padding: 20px;
     }
 
-    /* Estilos del Avatar */
+    .container {
+        /* Tamaño estándar para la tarjeta de formulario */
+        width: 100%;
+        max-width: 450px; 
+        padding: 30px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Sombra más profunda */
+        transition: box-shadow 0.3s ease;
+        position: relative;
+        box-sizing: border-box;
+        margin-top: 20px;
+    }
+    
+    /* El contenedor ahora es el que maneja el centrado y la tarjeta */
+    .container > div {
+        width: 100%;
+        max-width: 100%; /* Asegura que los formularios internos no hereden anchos fijos */
+    }
+
+    /* Estilos del Logo/Avatar */
     .avatar {
         width: 100px;
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        border: 3px solid var(--icon-color);
+        margin: 0 auto 30px auto;
+        box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2), 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: 4px solid var(--secondary-color);
         display: none;
     }
 
-    h3 { /* Nuevo estilo para los títulos de formulario */
+    h3 {
       margin-bottom: 25px;
       font-size: 1.8em;
-      color: var(--text-dark);
+      color: var(--primary-color);
       text-align: center;
     }
     
-    /* Ajuste para el p en el formulario de recuperación */
     .recover-password-form p {
         margin-bottom: 20px;
         margin-top: 5px;
         text-align: center;
-        /* max-width: 350px; <-- ELIMINADO para que ocupe todo el ancho del container */
         font-size: 1.05em;
         line-height: 1.4;
     }
 
-
     /* Estilos para los campos de entrada (inputs y textareas) */
     .input-field {
         width: 100%;
-        padding: 16px 20px;
+        padding: 18px 20px; /* Padding ligeramente mayor */
         margin: 0;
-        font-size: 1.15rem;
-        border: 2px solid #ccc;
-        border-radius: 12px;
+        font-size: 1.1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
         outline: none;
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
         background-color: #f9f9f9;
         color: var(--text-dark);
         box-sizing: border-box;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra interior sutil */
     }
 
     /* Al enfocar los campos de entrada */
     .input-field:focus {
-        border-color: #1e88e5;
-        box-shadow: 0 0 10px rgba(30, 136, 229, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 8px rgba(63, 81, 181, 0.4);
         background-color: #ffffff;
     }
 
@@ -120,100 +145,92 @@
         font-style: italic;
     }
 
-    button {
-      width: 100%; 
-      /* max-width: 350px; <-- ELIMINADO para que el botón se estire al 100% del container */
-      padding: 18px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.25em;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: all 0.3s ease;
-      font-weight: bold;
-      box-sizing: border-box;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-light);
-      background: var(--button-gradient);
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-    }
-
-    button:hover {
-      background: var(--button-hover-gradient);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 230, 118, 0.4);
-    }
-
+    /* Botones primarios (Iniciar Sesión, Registrarse) */
     .primary-btn {
-        background: var(--button-gradient);
+        width: 100%; 
+        padding: 16px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.2em;
+        cursor: pointer;
+        margin-top: 25px;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        box-sizing: border-box;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
         color: var(--text-light);
-    }
-    .primary-btn:hover {
-        background: var(--button-hover-gradient);
+        background: var(--button-gradient);
+        box-shadow: 0 6px 15px var(--shadow-color);
     }
 
+    .primary-btn:hover {
+      background: var(--button-hover-gradient);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    /* Botón de Registro como acción secundaria */
     .register-btn {
         background: var(--card-bg);
-        color: var(--icon-color);
-        border: 2px solid var(--icon-color);
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
         margin-top: 20px;
-        box-shadow: 0 4px 10px rgba(0, 230, 118, 0.2);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         width: 100%;
-        /* max-width: 350px; <-- ELIMINADO para que el botón de registro se estire al 100% del container */
+        font-size: 1.2em;
     }
 
     .register-btn:hover {
-        background: var(--icon-color);
+        background: var(--primary-color);
         color: var(--text-light);
         transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 230, 118, 0.4);
+        box-shadow: 0 6px 15px var(--shadow-color);
     }
 
-    /* Modificación para el separador "Ingresa con tu correo electrónico" */
+    /* Separador "Ingresa con tu correo electrónico" */
     .separator-text {
-        margin: 30px 0 10px 0;
+        margin: 30px 0 15px 0;
         color: var(--placeholder-color);
         position: relative;
-        font-size: 1em;
+        font-size: 0.95em;
         width: 100%;
-        /* max-width: 350px; <-- ELIMINADO para que ocupe todo el ancho del container */
         text-align: center;
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 0.5px;
     }
 
-    .separator-text::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: calc(50% - 85px); /* Ajustado el ancho de la línea izquierda */
-        height: 1px;
-        background-color: var(--border-color);
-    }
-
+    .separator-text::before,
     .separator-text::after {
         content: '';
         position: absolute;
         top: 50%;
-        right: 0;
-        width: calc(50% - 85px); /* Ajustado el ancho de la línea derecha */
         height: 1px;
         background-color: var(--border-color);
     }
+    .separator-text::before {
+        left: 0;
+        width: calc(50% - 130px); /* Ajustado para el texto más largo */
+    }
+    .separator-text::after {
+        right: 0;
+        width: calc(50% - 130px); /* Ajustado para el texto más largo */
+    }
     
-    /* Nueva clase para la línea debajo del texto */
+    /* Línea divisoria */
     .line-below-text {
         width: 100%;
-        /* max-width: 350px; <-- ELIMINADO para que ocupe todo el ancho del container */
         height: 1px;
         background-color: var(--border-color);
-        margin: 25px 0;
+        margin: 25px 0 10px 0;
     }
 
     /* ESTILOS DEL TOOLTIP DE MENSAJE (GENERAL) */
     .form-message-tooltip {
         visibility: hidden;
-        width: var(--tooltip-fixed-width);
+        width: 90%; /* Responsive width */
+        max-width: var(--tooltip-fixed-width);
         background-color: var(--tooltip-bg-color);
         color: var(--tooltip-text-color);
         text-align: center;
@@ -225,23 +242,22 @@
         transform: translateX(-50%);
         opacity: 0;
         transition: opacity 0.3s, background-color 0.3s;
-        font-size: 1.1em;
+        font-size: 1.05em;
         font-weight: bold;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        white-space: normal;
-        word-wrap: break-word;
-        top: 15px; /* Posicionamiento fijo para que no dependa del botón */
+        top: 15px; 
     }
-
     .form-message-tooltip.active {
         visibility: visible;
         opacity: 1;
     }
+    .form-message-tooltip.success { background-color: var(--message-success-bg); }
+    .form-message-tooltip.error { background-color: var(--message-error-bg); }
 
     .form-message-tooltip::after {
         content: "";
         position: absolute;
-        top: 100%; /* En la parte inferior del tooltip */
+        top: 100%; 
         left: 50%;
         margin-left: -10px;
         border-width: 10px;
@@ -249,45 +265,32 @@
         border-color: var(--tooltip-bg-color) transparent transparent transparent;
     }
 
-    /* Colores para el tooltip de mensaje según el tipo */
-    .form-message-tooltip.success {
-        background-color: var(--message-success-bg);
-    }
-
-    .form-message-tooltip.success::after {
-        border-color: var(--message-success-bg) transparent transparent transparent;
-    }
-
-    .form-message-tooltip.error {
-        background-color: var(--message-error-bg);
-    }
-
-    .form-message-tooltip.error::after {
-        border-color: var(--message-error-bg) transparent transparent transparent;
-    }
+    .form-message-tooltip.success::after { border-color: var(--message-success-bg) transparent transparent transparent; }
+    .form-message-tooltip.error::after { border-color: var(--message-error-bg) transparent transparent transparent; }
 
 
     .text-link {
-        margin-top: 30px;
-        font-size: 1.05em;
+        margin-top: 10px;
+        font-size: 1em;
         color: var(--text-dark);
         display: block;
         text-align: center;
         width: 100%;
-        /* max-width: 350px; <-- ELIMINADO para que ocupe todo el ancho del container */
     }
 
     .text-link a {
-        color: var(--icon-color);
+        color: var(--primary-color);
         text-decoration: none;
-        font-weight: bold;
+        font-weight: 600;
+        transition: color 0.2s ease;
     }
 
     .text-link a:hover {
+        color: var(--secondary-color);
         text-decoration: underline;
     }
 
-    /* Forms visibility - ¡Cambio clave aquí! */
+    /* Forms visibility */
     .login-form, .register-form, .recover-password-form {
         display: none;
         flex-direction: column;
@@ -299,10 +302,9 @@
     /* Password container for the eye icon */
     .password-container {
         position: relative;
-        width: 100%; /* Ocupa todo el ancho del formulario */
-        /* max-width: 350px; <-- ELIMINADO */
-        margin-top: 10px;
-        margin-bottom: 12px;
+        width: 100%; 
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     .password-container .input-field {
@@ -313,24 +315,24 @@
 
     .toggle-password {
         position: absolute;
-        right: 18px;
+        right: 15px;
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
         color: var(--placeholder-color);
-        font-size: 1.3em;
+        font-size: 1.4em;
+        transition: color 0.2s ease;
     }
 
     .toggle-password:hover {
-        color: var(--text-dark);
+        color: var(--primary-color);
     }
 
     /* Estilos para el Tooltip (de información) */
     .tooltip-container {
         position: relative;
-        width: 100%; /* Ocupa todo el ancho del formulario */
-        /* max-width: 350px; <-- ELIMINADO */
-        margin: 10px 0;
+        width: 100%; 
+        margin: 15px 0;
         display: flex;
         align-items: center;
     }
@@ -343,36 +345,36 @@
 
     .tooltip-icon {
         position: absolute;
-        right: 18px;
+        right: 15px;
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
         color: var(--placeholder-color);
-        font-size: 1.3em;
+        font-size: 1.4em;
         z-index: 2;
+        transition: color 0.2s ease;
     }
-
     .tooltip-icon:hover {
-        color: var(--text-dark);
+        color: var(--primary-color);
     }
 
     .tooltip-text {
         visibility: hidden;
         width: var(--tooltip-fixed-width);
-        background-color: var(--tooltip-bg-color);
+        background-color: var(--primary-color);
         color: var(--tooltip-text-color);
         text-align: center;
         border-radius: 6px;
-        padding: 8px 10px;
+        padding: 10px 15px;
         position: absolute;
         z-index: 1000;
-        bottom: 125%;
+        bottom: 120%;
         left: 50%;
         margin-left: calc(-1 * var(--tooltip-fixed-width) / 2);
         opacity: 0;
         transition: opacity 0.3s;
-        font-size: 0.85em;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        font-size: 0.9em;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         white-space: normal;
         word-wrap: break-word;
     }
@@ -385,7 +387,7 @@
         margin-left: -5px;
         border-width: 5px;
         border-style: solid;
-        border-color: var(--tooltip-bg-color) transparent transparent transparent;
+        border-color: var(--primary-color) transparent transparent transparent;
     }
 
     .tooltip-icon:hover + .tooltip-text {
@@ -399,142 +401,97 @@
         font-size: 0.9em;
         text-align: center;
         width: 100%;
-        /* max-width: 350px; <-- ELIMINADO */
+        line-height: 1.5;
     }
 
     .register-policy-links a {
-        color: var(--icon-color);
+        color: var(--primary-color);
         text-decoration: none;
         font-weight: normal;
-        margin: 0 5px;
+        margin: 0 3px;
+        transition: color 0.2s ease;
     }
-
     .register-policy-links a:hover {
+        color: var(--secondary-color);
         text-decoration: underline;
     }
     .register-policy-links .separator-dot {
         color: #ccc;
-        margin: 0 3px;
+        margin: 0 5px;
     }
     
+    /* Pie de página */
+    .footer {
+        background-color: transparent;
+        padding: 30px 20px;
+        text-align: center;
+        color: var(--text-dark);
+        font-size: 0.9em;
+        line-height: 1.6;
+        width: 100%;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+
+    .footer p {
+        margin: 0 0 10px;
+        color: #6c757d;
+    }
+
+    .social-icons {
+        margin-top: 15px;
+    }
+
+    .social-icons a {
+        margin: 0 12px;
+        font-size: 24px;
+        color: var(--primary-color);
+        transition: color 0.2s ease;
+    }
+
+    .social-icons a:hover {
+        color: var(--secondary-color);
+    }
+
     /* Media Queries para pantallas más pequeñas (móviles) */
-    /* Se simplifica y se asegura que el padding del .container se respete */
     @media (max-width: 600px) {
+        .header-bar {
+            padding: 10px 15px;
+        }
+        .main-content-wrapper {
+            padding: 10px;
+        }
         .container {
-            padding: 20px;
+            padding: 25px 20px;
+            box-shadow: none; /* Eliminar sombra en móvil para un diseño más nativo */
+            border-radius: 0;
+            margin-top: 0;
         }
-
-        .avatar {
-            width: 90px;
-            height: 90px;
-            margin-bottom: 25px;
+        .separator-text::before {
+            width: 30%; 
         }
-
-        h3 {
-            font-size: 1.7em;
-            margin-bottom: 20px;
-        }
-        
-        .recover-password-form p {
-            font-size: 0.95em;
-            margin-bottom: 15px;
-        }
-
-        /* En móviles, todos los elementos importantes ocupan todo el ancho disponible */
-        .input-field,
-        button,
-        .separator-text,
-        .line-below-text,
-        .password-container,
-        .register-btn,
-        .text-link,
-        .tooltip-container,
-        .register-policy-links 
-         {
-            width: 100%; /* Full width on small screens */
-            max-width: none; /* Asegura que no haya límites de 350px en móvil */
-            padding-left: 0;
-            padding-right: 0;
-        }
-        
-        .separator-text::before,
         .separator-text::after {
-            width: 35%; /* Ajusta el ancho de las líneas para móviles */
+            width: 30%; 
         }
-
 
         .form-message-tooltip {
-            font-size: 1.05em;
-            /* Usar 90% para que se vea bien en pantallas muy pequeñas, con un margin/padding */
-            width: 90%; 
-            max-width: var(--tooltip-fixed-width);
-            top: 15px; /* Dejarlo fijo en la parte superior del contenedor */
+            width: calc(100% - 40px);
         }
-
         .tooltip-text {
-            /* Mantiene el ancho fijo para el tooltip de información, que es más pequeño */
-            width: var(--tooltip-fixed-width); 
-            max-width: calc(100% - 40px); /* Para evitar que se desborde */
-            margin-left: calc(-1 * min(150px, (100% - 40px) / 2)); /* Centrar de forma dinámica */
-            bottom: 110%;
+             max-width: calc(100% - 40px);
+             margin-left: calc(-1 * min(150px, (100% - 40px) / 2));
+        }
+        .footer {
+            margin-top: 10px;
+            padding: 20px 10px;
         }
     }
-/* Pie de página */
-        .footer {
-            background-color: transparent;
-            padding: 25px 20px;
-            text-align: center;
-            color: var(--text-dark);
-            margin-top: 30px;
-            font-size: 0.9em;
-            line-height: 1.6;
-            width: 100%; /* Se asegura de que el footer ocupe todo el ancho */
-            max-width: 450px; /* Igual que el container */
-            margin-left: auto;
-            margin-right: auto;
-            box-sizing: border-box; /* Crucial para el padding */
-        }
-
-        .footer h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            color: var(--text-dark);
-        }
-
-        .footer p {
-            margin: 0 0 10px;
-            color: #6c757d;
-        }
-
-        .footer a {
-            color: var(--icon-color);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .footer a:hover {
-            color: #1e88e5;
-        }
-
-        .social-icons {
-            margin-top: 15px;
-        }
-
-        .social-icons a {
-            margin: 0 12px;
-            font-size: 22px;
-            color: var(--icon-color);
-            transition: color 0.2s ease;
-        }
-
-        .social-icons a:hover {
-            color: #1e88e5;
-        }
-
-    /* Indicador de Carga con Círculos */
+    
+    /* Estilos del indicador de carga */
     #loading-indicator {
-      display: flex;
+      display: none; /* Inicialmente oculto */
       justify-content: center;
       align-items: center;
       position: fixed;
@@ -543,143 +500,149 @@
       width: 100%;
       height: 100vh;
       background-color: rgba(255, 255, 255, 0.9);
-      z-index: 9;
+      z-index: 9999;
     }
 
     .pulsing-circle {
       width: 25px;
       height: 25px;
-      background-image: linear-gradient(45deg, #1e88e5, #00e676);    
+      background-image: var(--button-gradient);    
       border-radius: 50%;
       margin: 0 12px;
       animation: pulse-circle 1.5s infinite ease-in-out;
     }
 
-    .pulsing-circle.delay-1 {
-      animation-delay: 0.2s;
-    }
-
-    .pulsing-circle.delay-2 {
-      animation-delay: 0.4s;
-    }
+    .pulsing-circle.delay-1 { animation-delay: 0.2s; }
+    .pulsing-circle.delay-2 { animation-delay: 0.4s; }
 
     @keyframes pulse-circle {
-      0% {
-        transform: scale(0);
-        opacity: 0.7;
-      }
-      50% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(0);
-        opacity: 0.7;
-      }
+      0% { transform: scale(0); opacity: 0.7; }
+      50% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0.7; }
     }
   </style>
 </head>
 <body>
-  <div id="login-register-container" class="container">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiQJitHw_3wF_08BjBXLFIZAD0QsIoUYhHWCVXLBAIBopJBGRu-t0a7ffnpm6mY8xo-xIWBDZy7onTdW9XH-V08NFckM2YZUbwTi6J3QtWw3Y5zUBMX6-23atheZZHrbURyEaO5UmwjyL1pE0-90bi68UCagd6WtLlslYraV-0cGpkJxvzjFpMYIfnTZag/s400/1000125345.png" alt="Avatar de Usuario" class="avatar">
+    <header class="header-bar">
+        <a href="index.html" class="logo-text">MASITAPREX</a>
+    </header>
 
-    <div id="login-form" class="login-form">
-        <div class="separator-text">
-            Ingresa con tu correo electrónico
-            <div class="line-below-text"></div> 
-        </div>
+    <div class="main-content-wrapper">
+        <div id="login-register-container" class="container">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiQJitHw_3wF_08BjBXLFIZAD0QsIoUYhHWCVXLBAIBopJBGRu-t0a7ffnpm6mY8xo-xIWBDZy7onTdW9XH-V08NFckM2YZUbwTi6J3QtWw3Y5zUBMX6-23atheZZHrbURyEaO5Umj-90bi68UCagd6WtLlslYraV-0cGpkJxvzjFpMYIfnTZag/s400/1000125345.png" alt="Avatar de Usuario MASITAPREX" class="avatar">
 
-        <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
-        
-        <div class="password-container">
-            <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password" class="input-field">
-            <span class="material-icons toggle-password" id="toggle-login-password" onclick="togglePasswordVisibility('login-password', 'toggle-login-password')">visibility</span>
-        </div>
+            <div id="login-form" class="login-form">
+                <h3>Acceso a Mi Cuenta</h3>
 
-        <button class="primary-btn" onclick="loginWithEmail()">
-            Iniciar sesión
-        </button>
-        
-        <div class="text-link">
-            ¿Olvidaste tu contraseña? <a href="#" onclick="showRecoverPasswordForm(); return false;">Recuperar aquí</a>
-            <div class="line-below-text"></div> 
-        </div>
-        <button id="create-account-button" class="register-btn" onclick="showRegisterForm()">
-            Crear Cuenta
-        </button>
-        </div>
+                <div class="separator-text">
+                    Ingresa con tu correo electrónico
+                </div>
 
-    <div id="register-form" class="register-form">
-        <p>Completa tu registro en consulta pe</p> 
+                <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
+                
+                <div class="password-container">
+                    <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password" class="input-field">
+                    <span class="material-icons toggle-password" id="toggle-login-password" onclick="togglePasswordVisibility('login-password', 'toggle-login-password')">visibility</span>
+                </div>
 
-        <div class="tooltip-container">
-            <input type="text" id="register-name" placeholder="Tu nombre" class="input-field">
-            <span class="material-icons tooltip-icon">info_outline</span>
-            <span class="tooltip-text">Ingresa tu nombre completo o como deseas ser llamado en la aplicación.</span>
-        </div>
+                <button class="primary-btn" onclick="loginWithEmail()">
+                    Iniciar sesión
+                </button>
+                
+                <div class="text-link">
+                    ¿Olvidaste tu contraseña? <a href="#" onclick="showRecoverPasswordForm(); return false;">Recuperar aquí</a>
+                </div>
 
-        <div class="tooltip-container">
-            <input type="email" id="register-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
-            <span class="material-icons tooltip-icon">info_outline</span>
-            <span class="tooltip-text">Este será tu usuario para iniciar sesión y donde recibirás notificaciones.</span>
-        </div>
-        
-        <div class="password-container">
-            <input type="password" id="register-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password" class="input-field">
-            <span class="material-icons toggle-password" id="toggle-register-password" onclick="togglePasswordVisibility('register-password', 'toggle-register-password')">visibility</span>
-        </div>
-        
-        <div class="password-container">
-            <input type="password" id="register-confirm-password" placeholder="Confirmar Contraseña" autocomplete="new-password" class="input-field">
-            <span class="material-icons toggle-password" id="toggle-register-confirm-password" onclick="togglePasswordVisibility('register-confirm-password', 'toggle-register-confirm-password')">visibility</span>
-        </div>
+                <div class="line-below-text"></div> 
 
-        <button class="primary-btn" onclick="registerNewAccount()">
-            Registrarse
-        </button>
-        
-        <div class="register-policy-links">
-            Al registrarte, aceptas nuestros 
-            <a href="go:terminos">Términos y condiciones</a> <span class="separator-dot">|</span>
-            <a href="go:politica">Política de privacidad</a> <span class="separator-dot">|</span>
-            <a href="go:legal">Aviso legal</a>
-        </div>
+                <button id="create-account-button" class="register-btn" onclick="showRegisterForm()">
+                    Crear Cuenta
+                </button>
+            </div>
 
-        <div class="text-link">
-            ¿Ya tienes una cuenta? <a href="#" onclick="showLoginForm(); return false;">Inicia sesión aquí</a>
-            <div class="line-below-text"></div> 
-        </div>
-    </div>
+            <div id="register-form" class="register-form">
+                <h3>Crear Nueva Cuenta</h3>
+                <p style="margin-top: -10px; margin-bottom: 20px; color: #6c757d; font-size: 0.95em;">Comienza tu experiencia digital con MASITAPREX</p> 
 
-    <div id="recover-password-form" class="recover-password-form">
-        <h3>Recuperar Contraseña</h3>
-        <p>Ingresa tu correo electrónico para enviar un enlace de recuperación.</p>
-        
-        <div class="tooltip-container">
-            <input type="email" id="recover-email" placeholder="Correo electrónico" class="input-field">
-            <span class="material-icons tooltip-icon">info_outline</span>
-            <span class="tooltip-text">Ingresa el correo asociado a tu cuenta para recibir las instrucciones de recuperación.</span>
-        </div>
+                <div class="tooltip-container">
+                    <input type="text" id="register-name" placeholder="Tu nombre" class="input-field">
+                    <span class="material-icons tooltip-icon">info_outline</span>
+                    <span class="tooltip-text">Ingresa tu nombre completo o como deseas ser llamado en la aplicación.</span>
+                </div>
 
-        <button class="primary-btn" onclick="recoverPassword()">
-            Enviar enlace de recuperación
-        </button>
-        <div class="text-link">
-            <a href="#" onclick="showLoginForm(); return false;">Volver al Inicio de Sesión</a>
+                <div class="tooltip-container">
+                    <input type="email" id="register-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
+                    <span class="material-icons tooltip-icon">info_outline</span>
+                    <span class="tooltip-text">Este será tu usuario para iniciar sesión y donde recibirás notificaciones.</span>
+                </div>
+                
+                <div class="password-container">
+                    <input type="password" id="register-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password" class="input-field">
+                    <span class="material-icons toggle-password" id="toggle-register-password" onclick="togglePasswordVisibility('register-password', 'toggle-register-password')">visibility</span>
+                </div>
+                
+                <div class="password-container">
+                    <input type="password" id="register-confirm-password" placeholder="Confirmar Contraseña" autocomplete="new-password" class="input-field">
+                    <span class="material-icons toggle-password" id="toggle-register-confirm-password" onclick="togglePasswordVisibility('register-confirm-password', 'toggle-register-confirm-password')">visibility</span>
+                </div>
+
+                <button class="primary-btn" onclick="registerNewAccount()">
+                    Registrarse
+                </button>
+                
+                <div class="register-policy-links">
+                    Al registrarte, aceptas nuestros 
+                    <a href="terminos-condiciones.html">Términos</a> <span class="separator-dot">|</span>
+                    <a href="politica-privacidad.html">Política de privacidad</a> <span class="separator-dot">|</span>
+                    <a href="aviso-legal.html">Aviso legal</a>
+                </div>
+
+                <div class="line-below-text"></div> 
+                
+                <div class="text-link">
+                    ¿Ya tienes una cuenta? <a href="#" onclick="showLoginForm(); return false;">Inicia sesión aquí</a>
+                </div>
+            </div>
+
+            <div id="recover-password-form" class="recover-password-form">
+                <h3>Recuperar Contraseña</h3>
+                <p>Ingresa tu correo electrónico para enviar un enlace de recuperación.</p>
+                
+                <div class="tooltip-container">
+                    <input type="email" id="recover-email" placeholder="Correo electrónico" class="input-field">
+                    <span class="material-icons tooltip-icon">info_outline</span>
+                    <span class="tooltip-text">Ingresa el correo asociado a tu cuenta para recibir las instrucciones de recuperación.</span>
+                </div>
+
+                <button class="primary-btn" onclick="recoverPassword()">
+                    Enviar enlace de recuperación
+                </button>
+                <div class="text-link">
+                    <a href="#" onclick="showLoginForm(); return false;">Volver al Inicio de Sesión</a>
+                </div>
+            </div>
+            
+            <div id="form-message-tooltip" class="form-message-tooltip"></div>
         </div>
-    </div>
-    
+    </div> <footer class="footer">
+        <p>¿Necesitas ayuda? Escríbenos a <a href="mailto:soporte@masitaprex.com">soporte@masitaprex.com</a></p>
+        <p>&copy; 2025 MASITAPREX. Soluciones Digitales.</p>
+        <div class="social-icons">
+            <a href="#" aria-label="Síguenos en Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.86 0-5 2.03-5 5v2.5H6v4h3.5V22h4.5v-8.5z"/></svg></a>
+            <a href="#" aria-label="Síguenos en X (Twitter)"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.34-1.6.57-2.45.65.88-.53 1.55-1.37 1.87-2.37-.83.49-1.75.85-2.7.99C18.66 4.7 17.5 4 16.2 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11 1-.03 0-.06 0-.09 0-3.56 0-6.72-1.89-8.83-4.52-.37.63-.58 1.36-.58 2.15 0 1.48.75 2.8 1.88 3.56-.68-.02-1.32-.2-1.88-.52v.05c0 2.05 1.46 3.76 3.39 4.14-.36.1-.74.15-1.13.15-.28 0-.56-.03-.83-.07.54 1.67 2.14 2.9 4.02 2.94-1.45 1.13-3.29 1.8-5.3 1.8-.35 0-.7-.02-1.04-.06 1.87 1.2 4.08 1.9 6.47 1.9 7.7 0 11.9-6.38 11.9-11.9 0-.18 0-.36-.01-.53.82-.6 1.52-1.3 2.09-2.12z"/></svg></a>
+            <a href="#" aria-label="Síguenos en LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-9.429c0-2.288-1.722-3.158-3.541-3.158-1.554 0-2.235.853-2.613 1.764v-1.525H7.135v9.429H3.581V7.896h3.554v1.525c.465-.67 1.111-1.626 3.16-1.626 2.551 0 4.417 1.63 4.417 5.16v4.677h3.554v-4.677c0-1.285.867-2.366 2.458-2.366 1.59 0 2.51 1.08 2.51 2.366v4.677zM.581 6.848c0 1.487 1.205 2.68 2.68 2.68s2.68-1.192 2.68-2.68c0-1.487-1.192-2.68-2.68-2.68-1.475 0-2.68 1.193-2.68 2.68z"/></svg></a>
+        </div>
+    </footer>
+
+
     <div id="loading-indicator">
       <div class="pulsing-circle"></div>
       <div class="pulsing-circle delay-1"></div>
       <div class="pulsing-circle delay-2"></div>
     </div>
     
-    <div id="form-message-tooltip" class="form-message-tooltip"></div>
-
-  </div>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script type="module">
+    // --- LÓGICA DE FIREBASE Y JS (Sin cambios) ---
     // Importa las funciones necesarias de los SDKs de Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { 
@@ -723,10 +686,6 @@
             formMessageTooltip.textContent = msg;
             formMessageTooltip.className = `form-message-tooltip active ${type}`; 
             
-            // CAMBIO CLAVE: Posicionamiento del mensaje de error
-            // Se usa el CSS para centrar y el 'top: 15px' para posicionar el mensaje
-            // CÓDIGO ANTERIOR ELIMINADO: (Posicionamiento dinámico que causaba problemas de renderizado)
-            
             setTimeout(() => {
                 formMessageTooltip.classList.remove('active'); 
             }, 5000);
@@ -756,21 +715,21 @@
     }
 
     window.showRegisterForm = () => {
-        hideAllForms(); // Oculta todo primero
+        hideAllForms(); 
         if (avatar) avatar.style.display = 'block'; 
         if (registerForm) registerForm.style.display = 'flex';
         hideLoadingOverlay(); 
     };
 
     window.showLoginForm = () => {
-        hideAllForms(); // Oculta todo primero
+        hideAllForms(); 
         if (avatar) avatar.style.display = 'block'; 
         if (loginForm) loginForm.style.display = 'flex';
         hideLoadingOverlay(); 
     };
 
     window.showRecoverPasswordForm = () => {
-        hideAllForms(); // Oculta todo primero
+        hideAllForms(); 
         if (avatar) avatar.style.display = 'block'; 
         if (recoverPasswordForm) recoverPasswordForm.style.display = 'flex';
         hideLoadingOverlay(); 
@@ -809,17 +768,17 @@
           return;
       }
 
-      showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
+      showLoadingOverlay(); 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log("Inicio de sesión con correo exitoso:", userCredential.user);
         
-        await saveUserProfile(userCredential.user); // Guarda en Firestore
+        await saveUserProfile(userCredential.user); 
         
         showMessage('Inicio de sesión exitoso!', 'success'); 
         redirectToNextPage(); 
       } catch (error) {
-        hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
+        hideLoadingOverlay(); 
         let errorMessage = 'Error al iniciar sesión. Verifica tu correo y contraseña.';
         if (error.code === 'auth/user-not-found') {
             errorMessage = 'Usuario no encontrado. ¿Necesitas registrarte?';
@@ -870,17 +829,17 @@
           return;
       }
 
-      showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
+      showLoadingOverlay(); 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log("Registro con correo exitoso:", userCredential.user);
         
-        await saveUserProfile(userCredential.user, name); // Guarda en Firestore
+        await saveUserProfile(userCredential.user, name); 
 
         showMessage(`¡Cuenta creada exitosamente para ${userCredential.user.email}!`, 'success');
         redirectToNextPage();
       } catch (error) {
-        hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
+        hideLoadingOverlay(); 
         let errorMessage = 'Error al registrarse. Intenta con otro correo.';
         if (error.code === 'auth/email-already-in-use') {
             errorMessage = 'Este correo ya está en uso. ¿Deseas iniciar sesión?';
@@ -907,16 +866,16 @@
             return;
         }
 
-        showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
+        showLoadingOverlay(); 
         try {
             await sendPasswordResetEmail(auth, email);
-            hideLoadingOverlay(); // Oculta el loading al enviar el correo
+            hideLoadingOverlay(); 
             showMessage('Se ha enviado un correo de recuperación a tu dirección. Por favor, revisa tu bandeja de entrada.', 'success');
             setTimeout(() => {
                 showLoginForm(); 
             }, 3000); 
         } catch (error) {
-            hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
+            hideLoadingOverlay(); 
             let errorMessage = 'Error al enviar el correo de recuperación. Asegúrate de que el correo sea válido.';
             if (error.code === 'auth/user-not-found') {
                 errorMessage = 'No se encontró una cuenta con ese correo electrónico.';
@@ -937,37 +896,33 @@
       } else {
         // No hay usuario autenticado: Muestra el formulario correcto después de un breve delay para que se vea el loading
         setTimeout(() => {
-            if (document.referrer.includes("go:rapidas")) {
-                // Si el usuario regresa de go:rapidas y no está autenticado, salir de la app
-                window.location.href = "http://action_exit/";
-            } else if (window.location.hash === '#recover') {
+            // Se asume que los enlaces en register-policy-links usan login.html (go:terminos, etc.)
+            // No se puede usar document.referrer en el código JS aquí, ya que el archivo .html es el código puro.
+            
+            if (window.location.hash === '#recover') {
                 showRecoverPasswordForm();
             } else {
                 showLoginForm(); 
             }
-            hideLoadingOverlay(); // Oculta el loading después de mostrar el formulario
-        }, 500); // Pequeño delay para que el usuario vea el loading
+            hideLoadingOverlay(); 
+        }, 500); 
       }
     });
 
     // Manejar el evento popstate para detectar si el usuario regresa con el botón de "atrás" del navegador
     window.addEventListener('popstate', (event) => {
-        showLoadingOverlay(); // Muestra el loading al intentar volver
+        showLoadingOverlay(); 
         onAuthStateChanged(auth, (user) => {
             if (!user && window.location.hostname.includes('firebaseapp.com')) { 
-                // Si no hay usuario y estamos en el dominio de Firebase (la app web), salir.
                 window.location.href = "http://action_exit/";
             } else {
-                // Si hay usuario o no estamos en el dominio de Firebase, se reevalúa la vista
                 if (!user) {
-                    // Si el usuario no está autenticado, se muestra el login
                     setTimeout(() => {
                         showLoginForm();
                         hideLoadingOverlay();
-                    }, 100); // Pequeño delay
+                    }, 100); 
                 } else {
-                    // Si el usuario está autenticado, se redirige (onAuthStateChanged ya lo hará)
-                    hideLoadingOverlay(); // Oculta el loading si se va a redirigir
+                    hideLoadingOverlay(); 
                 }
             }
         });
@@ -996,14 +951,10 @@
 
     // Al cargar la página, ocultar formularios y mostrar el loading
     document.addEventListener('DOMContentLoaded', () => {
-        hideAllForms(); // Asegura que nada se vea antes de que el loading actúe
-        showLoadingOverlay(); // Muestra el loading inmediatamente al cargar
+        hideAllForms(); 
+        showLoadingOverlay(); 
     });
   </script>
 
 </body>
 </html>
-
-
-
-<body ondragstart="return false" onselectstart="return false" oncontextmenu="return false">
