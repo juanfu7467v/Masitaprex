@@ -39,7 +39,7 @@
         color: var(--text-dark);
         /* ESTILOS PARA CENTRADO EN ESCRITORIO */
         display: flex;
-        flex-direction: column; /* Cambiado a columna para permitir centrar el contenedor y el footer */
+        flex-direction: column; /* Cambiado a columna para permitir centrar el contenedor */
         justify-content: center;
         align-items: center;
         min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
@@ -103,8 +103,6 @@
         background: var(--border-gradient); /* ¡NUEVO DEGRADADO! */
     }
     
-    /* Fin de las modificaciones solicitadas */
-
     /* Estilos del Avatar */
     .avatar {
         width: 100px;
@@ -459,7 +457,7 @@
             min-height: auto; 
             height: auto;
             display: block; /* Desactiva flex para el centrado */
-            padding-bottom: 20px; /* Espacio extra en la parte inferior para que el footer no se pegue */
+            /* Se eliminó el padding-bottom que era para el footer */
         }
         
         /* Oculta la imagen de fondo en móviles para mejor rendimiento y experiencia */
@@ -529,47 +527,7 @@
             margin-left: calc(-1 * min(150px, (100% - 40px) / 2));
             bottom: 110%;
         }
-        
-        /* AJUSTE DEL FOOTER PARA MÓVILES */
-        .footer {
-            max-width: 100%; /* Ocupa todo el ancho en móviles */
-            padding: 25px 0; /* Padding solo vertical en móviles */
-        }
     }
-/* Pie de página */
-        .footer {
-            background-color: transparent;
-            padding: 25px 20px;
-            text-align: center;
-            color: var(--text-dark); /* Color del texto para el footer */
-            margin-top: 30px;
-            font-size: 0.9em;
-            line-height: 1.6;
-            width: 100%; 
-            max-width: 100%; /* Asegura que ocupe todo el ancho */
-            box-sizing: border-box; 
-        }
-
-        .footer p {
-            margin: 0 0 10px;
-            color: var(--text-dark); /* Color ajustado para el texto de derechos */
-        }
-
-        .social-icons {
-            margin-top: 15px;
-        }
-
-        .social-icons a {
-            margin: 0 12px;
-            font-size: 22px;
-            color: var(--icon-color);
-            transition: color 0.2s ease;
-        }
-
-        .social-icons a:hover {
-            color: #1e88e5;
-        }
-
     /* Indicador de Carga con Círculos */
     #loading-indicator {
       display: flex;
@@ -717,15 +675,6 @@
         
         <div id="form-message-tooltip"></div>
 
-    </div>
-    
-    <div class="footer">
-        <p>Derechos Reservados © 2025. Todos los contenidos y funcionalidades son propiedad del Sistema.</p>
-        <div class="social-icons">
-            <a href="#"><span class="material-icons">facebook</span></a>
-            <a href="#"><span class="material-icons">alternate_email</span></a>
-            <a href="#"><span class="material-icons">share</span></a>
-        </div>
     </div>
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -1048,3 +997,4 @@
     </script>
 </body>
 </html>
+
