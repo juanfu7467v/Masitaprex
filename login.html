@@ -8,9 +8,13 @@
     /* Variables CSS para la paleta de colores */
     :root {
         --icon-color: #00e676; /* Verde vibrante para los íconos */
-        /* Degradado de azul a verde para botones y BORDE */
+        /* Degradado de azul a verde para botones */
         --button-gradient: linear-gradient(45deg, #1e88e5, #00e676); 
         --button-hover-gradient: linear-gradient(45deg, #00e676, #1e88e5); /* Degradado invertido para hover */
+        
+        /* NUEVA VARIABLE PARA EL BORDE SOLICITADO: Blanco limpio a Azul degradado */
+        --border-gradient: linear-gradient(45deg, #e3f2fd, #1e88e5, #e3f2fd); /* Azul degradado claro */
+
         --text-dark: #333;
         --text-light: #fff;
         --bg-light: #f8f9fa;
@@ -33,52 +37,37 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background: var(--bg-light); /* Fondo fuera del contenedor */
         color: var(--text-dark);
-        /* Flexbox para centrar todo el contenido en el cuerpo */
+        /* ESTILOS PARA CENTRADO EN ESCRITORIO */
         display: flex;
-        flex-direction: column;
-        min-height: 100vh; /* Asegura que el body ocupe toda la altura de la vista */
-        height: 100%; 
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+        height: 100vh;
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
+        position: relative; /* Necesario para posicionar la imagen de fondo */
     }
-    
-    /* === CAMBIO 1: Fondo de imagen para el modo escritorio === */
-    /* Lo aplicamos al body en modo escritorio */
-    @media (min-width: 601px) {
-        body {
-            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLsYdN3u7Sfqd0Hnpgo9mOMl0SghAv1qHyHn-6Q6F6j8tPneJWHW5bpD7ORuAXyMtQHcTX88wed2bjYWKJK-jB7VPgUF6qZM6fQ4NemoUhhNmhQcB5kRrVY_tsZAObkzEFV9S8XqV_ktaRSQNsukUvpOAeYz2v_aqFxgj1EtmWssdB5pIEHOOo1Wfqokxk/s1024/1000036470.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed; /* Opcional: para que la imagen no se mueva al hacer scroll */
-        }
-        
-        /* Ajustamos el indicador de carga para que no tenga un fondo blanco opaco sobre la imagen */
-        #loading-indicator {
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo más transparente */
-        }
-    }
-    
-    /* === CAMBIO 2: Centrador en modo escritorio === */
-    /* Usamos un wrapper para centrar el contenido principal (container + footer) */
-    #center-wrapper {
-        flex-grow: 1; /* Ocupa el espacio restante */
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Centrado vertical */
-        align-items: center; /* Centrado horizontal */
+
+    /* === IMAGEN DE FONDO (Modo Escritorio) === */
+    .background-image {
+        position: fixed; /* Fija la imagen para que no se mueva con el scroll */
+        top: 0;
+        left: 0;
         width: 100%;
-        box-sizing: border-box;
+        height: 100%;
+        object-fit: cover; /* Cubre todo el área sin distorsionar */
+        z-index: -2; /* Detrás del body/contenedor */
+        opacity: 0.9; /* Opacidad sutil para no distraer */
     }
-    
+
+
     /* === CONTENEDOR CENTRAL: Bordes degradados y Fondo Blanco === */
     .container {
-        flex-grow: 0;
+        flex-grow: 0; 
         width: 100%;
         max-width: 450px; 
-        /* Eliminamos el margin auto vertical para que el centrado de #center-wrapper funcione */
-        margin: 40px auto; 
+        /* Eliminado 'margin: 40px auto;' para que el centrado de Flexbox funcione */
         height: auto; 
         padding: 40px; 
         box-sizing: border-box;
@@ -90,14 +79,13 @@
         
         /* === ESTILOS DEL BORDE SOLICITADOS === */
         border-radius: 20px; 
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35); /* Sombra un poco más visible */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada para destacar */
         
         border: 4px solid transparent; 
         background-clip: padding-box; 
         position: relative;
         z-index: 1; 
         overflow: hidden; 
-        /* ================================== */
         
         transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     }
@@ -113,9 +101,11 @@
         z-index: -1;
         margin: -4px; 
         border-radius: 24px; 
-        background: var(--button-gradient); /* Degradado azul-verde */
+        background: var(--border-gradient); /* ¡NUEVO DEGRADADO! */
     }
     
+    /* Fin de las modificaciones solicitadas */
+
     /* Estilos del Avatar */
     .avatar {
         width: 100px;
@@ -465,9 +455,21 @@
     
     /* Media Queries para pantallas más pequeñas (móviles) */
     @media (max-width: 600px) {
+        /* Desactiva el centrado completo y la altura 100vh para permitir scroll natural en móviles */
+        html, body {
+            min-height: auto; 
+            height: auto;
+            display: block; /* Desactiva flex para el centrado */
+        }
+        
+        /* Oculta la imagen de fondo en móviles para mejor rendimiento y experiencia */
+        .background-image {
+            display: none;
+        }
+        
         .container {
             padding: 30px 20px;
-            margin: 20px auto; 
+            margin: 20px auto; /* Vuelve al margen auto para centrar horizontalmente */
             max-width: calc(100% - 40px);
         }
 
@@ -534,14 +536,14 @@
             padding: 25px 20px;
             text-align: center;
             color: var(--text-dark);
-            /* Centrado horizontal y margen inferior para separarlo del borde de la pantalla */
-            margin: 30px auto 20px auto; 
+            margin-top: 30px;
             font-size: 0.9em;
             line-height: 1.6;
             width: 100%; 
             max-width: 450px; 
+            margin-left: auto;
+            margin-right: auto;
             box-sizing: border-box; 
-            flex-shrink: 0; /* Evita que el footer se comprima */
         }
 
         .footer h3 {
@@ -594,13 +596,6 @@
       background-color: rgba(255, 255, 255, 0.9);
       z-index: 9;
     }
-    
-    /* CAMBIO: En modo escritorio, la opacidad es menor para dejar ver el fondo */
-    @media (min-width: 601px) {
-        #loading-indicator {
-            background-color: rgba(255, 255, 255, 0.7); 
-        }
-    }
 
     .pulsing-circle {
       width: 25px;
@@ -636,7 +631,8 @@
   </style>
 </head>
 <body>
-<div id="center-wrapper">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLsYdN3u7Sfqd0Hnpgo9mOMl0SghAv1qHyHn-6Q6F6j8tPneJWHW5bpD7ORuAXyMtQHcTX88wed2bjYWKJK-jB7VPgUF6qZM6fQ4NemoUhhNmhQcB5kRrVY_tsZAObkzEFV9S8XqV_ktaRSQNsukUvpOAeYz2v_aqFxgj1EtmWssdB5pIEHOOo1Wfqokxk/s1024/1000036470.png" alt="Imagen de fondo de escritorio" class="background-image">
+    
     <div id="login-register-container" class="container">
         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiQJitHw_3wF_08BjBXLFIZAD0QsIoUYhHWCVXLBAIBopJBGRu-t0a7ffnpm6mY8xo-xIWBDZy7onTdW9XH-V08NFckM2YZUbwTi6J3QtWw3Y5zUBMX6-23atheZZHrbURyEaO5UmwjyL1pE0-90bi68UCagd6WtLlslYraV-0cGpkxvvzjFpMYIfnTZag/s400/1000125345.png" alt="Avatar de Usuario" class="avatar">
 
@@ -664,7 +660,7 @@
             <button id="create-account-button" class="register-btn" onclick="showRegisterForm()">
                 Crear Cuenta
             </button>
-            </div>
+        </div>
 
         <div id="register-form" class="register-form">
             <p>Completa tu registro en consulta pe</p> 
@@ -727,339 +723,342 @@
         </div>
         
         <div id="loading-indicator">
-          <div class="pulsing-circle"></div>
-          <div class="pulsing-circle delay-1"></div>
-          <div class="pulsing-circle delay-2"></div>
+            <div class="pulsing-circle"></div>
+            <div class="pulsing-circle delay-1"></div>
+            <div class="pulsing-circle delay-2"></div>
         </div>
         
         <div id="form-message-tooltip" class="form-message-tooltip"></div>
 
     </div>
     
-    <footer class="footer">
+    <div class="footer">
         <h3>Consulta PE</h3>
-        <p>Derechos de autor © 2025. Todos los derechos reservados.</p>
-        <p>¿Necesitas ayuda? <a href="go:ayuda">Contáctanos</a></p>
-    </footer>
-</div>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script type="module">
-    // Importa las funciones necesarias de los SDKs de Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { 
-      getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
-      onAuthStateChanged, sendPasswordResetEmail 
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { 
-      getFirestore, doc, setDoc, serverTimestamp 
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        <p>Derechos Reservados © 2025. Todos los contenidos y funcionalidades son propiedad de Consulta PE.</p>
+        <div class="social-icons">
+            <a href="#"><span class="material-icons">facebook</span></a>
+            <a href="#"><span class="material-icons">alternate_email</span></a>
+            <a href="#"><span class="material-icons">share</span></a>
+        </div>
+    </div>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="module">
+        // Importa las funciones necesarias de los SDKs de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { 
+          getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
+          onAuthStateChanged, sendPasswordResetEmail 
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { 
+          getFirestore, doc, setDoc, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
-    // Tu configuración de Firebase para la aplicación web
-    const firebaseConfig = {
-      apiKey: "AIzaSyAvzBfVUN_xRw-fuBEZdhoTasTMws1yERg", 
-      authDomain: "consulta-pe-abf99.firebaseapp.com",
-      projectId: "consulta-pe-abf99",
-      storageBucket: "consulta-pe-abf99.firebasestorage.app",
-      messagingSenderId: "610275972424",
-      appId: "1:610275972424:web:01a90ea3b00fcb1fc64f7d", 
-      measurementId: "G-G5MS9N3PCH" 
-    };
+        // Tu configuración de Firebase para la aplicación web
+        const firebaseConfig = {
+          apiKey: "AIzaSyAvzBfVUN_xRw-fuBEZdhoTasTMws1yERg", 
+          authDomain: "consulta-pe-abf99.firebaseapp.com",
+          projectId: "consulta-pe-abf99",
+          storageBucket: "consulta-pe-abf99.firebasestorage.app",
+          messagingSenderId: "610275972424",
+          appId: "1:610275972424:web:01a90ea3b00fcb1fc64f7d", 
+          measurementId: "G-G5MS9N3PCH" 
+        };
 
-    // Inicializa Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app); 
-    const db = getFirestore(app); 
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); 
+        const db = getFirestore(app); 
 
-    // --- Referencias a elementos del DOM ---
-    const formMessageTooltip = document.getElementById('form-message-tooltip'); 
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    const recoverPasswordForm = document.getElementById('recover-password-form');
-    const loadingIndicator = document.getElementById('loading-indicator'); 
-    const avatar = document.querySelector('.avatar');
+        // --- Referencias a elementos del DOM ---
+        const formMessageTooltip = document.getElementById('form-message-tooltip'); 
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const recoverPasswordForm = document.getElementById('recover-password-form');
+        const loadingIndicator = document.getElementById('loading-indicator'); 
+        const avatar = document.querySelector('.avatar');
 
-    // --- Funciones de utilidad ---
+        // --- Funciones de utilidad ---
 
-    // Función para mostrar mensajes de éxito o error al usuario (usa el tooltip)
-    function showMessage(msg, type) {
-        if (formMessageTooltip) {
-            formMessageTooltip.textContent = msg;
-            formMessageTooltip.className = `form-message-tooltip active ${type}`; 
+        // Función para mostrar mensajes de éxito o error al usuario (usa el tooltip)
+        function showMessage(msg, type) {
+            if (formMessageTooltip) {
+                formMessageTooltip.textContent = msg;
+                formMessageTooltip.className = `form-message-tooltip active ${type}`; 
+                
+                setTimeout(() => {
+                    formMessageTooltip.classList.remove('active'); 
+                }, 5000);
+            }
+        }
+
+        // NUEVAS FUNCIONES PARA CONTROLAR EL OVERLAY DE CARGA
+        function showLoadingOverlay() {
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'flex';
+            }
+        }
+
+        function hideLoadingOverlay() {
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // --- Funciones para manejar la visibilidad de los formularios ---
+        function hideAllForms() {
+            if (loginForm) loginForm.style.display = 'none';
+            if (registerForm) registerForm.style.display = 'none';
+            if (recoverPasswordForm) recoverPasswordForm.style.display = 'none';
+            if (avatar) avatar.style.display = 'none';
+            if (formMessageTooltip) formMessageTooltip.classList.remove('active'); 
+        }
+
+        window.showRegisterForm = () => {
+            hideAllForms(); // Oculta todo primero
+            if (avatar) avatar.style.display = 'block'; 
+            if (registerForm) registerForm.style.display = 'flex';
+            hideLoadingOverlay(); 
+        };
+
+        window.showLoginForm = () => {
+            hideAllForms(); // Oculta todo primero
+            if (avatar) avatar.style.display = 'block'; 
+            if (loginForm) loginForm.style.display = 'flex';
+            hideLoadingOverlay(); 
+        };
+
+        window.showRecoverPasswordForm = () => {
+            hideAllForms(); // Oculta todo primero
+            if (avatar) avatar.style.display = 'block'; 
+            if (recoverPasswordForm) recoverPasswordForm.style.display = 'flex';
+            hideLoadingOverlay(); 
+        };
+
+
+        // --- Función para alternar la visibilidad de la contraseña ---
+        window.togglePasswordVisibility = (inputId, iconId) => {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(iconId);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = 'visibility';
+            }
+        };
+
+        // --- Funciones de autenticación con el nuevo loading ---
+
+        window.loginWithEmail = async () => {
+          const emailInput = document.getElementById('login-email');
+          const passwordInput = document.getElementById('login-password');
+
+          const email = emailInput ? emailInput.value : '';
+          const password = passwordInput ? passwordInput.value : '';
+
+          if (!email || !password) {
+              showMessage('Por favor, ingresa tu correo y contraseña.', 'error');
+              return; 
+          }
+          if (!/\S+@\S+\.\S+/.test(email)) {
+              showMessage('Por favor, ingresa un formato de correo electrónico válido.', 'error');
+              return;
+          }
+
+          showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log("Inicio de sesión con correo exitoso:", userCredential.user);
             
-            setTimeout(() => {
-                formMessageTooltip.classList.remove('active'); 
-            }, 5000);
-        }
-    }
-
-    // NUEVAS FUNCIONES PARA CONTROLAR EL OVERLAY DE CARGA
-    function showLoadingOverlay() {
-        if (loadingIndicator) {
-            loadingIndicator.style.display = 'flex';
-        }
-    }
-
-    function hideLoadingOverlay() {
-        if (loadingIndicator) {
-            loadingIndicator.style.display = 'none';
-        }
-    }
-
-    // --- Funciones para manejar la visibilidad de los formularios ---
-    function hideAllForms() {
-        if (loginForm) loginForm.style.display = 'none';
-        if (registerForm) registerForm.style.display = 'none';
-        if (recoverPasswordForm) recoverPasswordForm.style.display = 'none';
-        if (avatar) avatar.style.display = 'none';
-        if (formMessageTooltip) formMessageTooltip.classList.remove('active'); 
-    }
-
-    window.showRegisterForm = () => {
-        hideAllForms(); // Oculta todo primero
-        if (avatar) avatar.style.display = 'block'; 
-        if (registerForm) registerForm.style.display = 'flex';
-        hideLoadingOverlay(); 
-    };
-
-    window.showLoginForm = () => {
-        hideAllForms(); // Oculta todo primero
-        if (avatar) avatar.style.display = 'block'; 
-        if (loginForm) loginForm.style.display = 'flex';
-        hideLoadingOverlay(); 
-    };
-
-    window.showRecoverPasswordForm = () => {
-        hideAllForms(); // Oculta todo primero
-        if (avatar) avatar.style.display = 'block'; 
-        if (recoverPasswordForm) recoverPasswordForm.style.display = 'flex';
-        hideLoadingOverlay(); 
-    };
-
-
-    // --- Función para alternar la visibilidad de la contraseña ---
-    window.togglePasswordVisibility = (inputId, iconId) => {
-        const passwordInput = document.getElementById(inputId);
-        const toggleIcon = document.getElementById(iconId);
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            toggleIcon.textContent = 'visibility_off';
-        } else {
-            passwordInput.type = 'password';
-            toggleIcon.textContent = 'visibility';
-        }
-    };
-
-    // --- Funciones de autenticación con el nuevo loading ---
-
-    window.loginWithEmail = async () => {
-      const emailInput = document.getElementById('login-email');
-      const passwordInput = document.getElementById('login-password');
-
-      const email = emailInput ? emailInput.value : '';
-      const password = passwordInput ? passwordInput.value : '';
-
-      if (!email || !password) {
-          showMessage('Por favor, ingresa tu correo y contraseña.', 'error');
-          return; 
-      }
-      if (!/\S+@\S+\.\S+/.test(email)) {
-          showMessage('Por favor, ingresa un formato de correo electrónico válido.', 'error');
-          return;
-      }
-
-      showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Inicio de sesión con correo exitoso:", userCredential.user);
-        
-        await saveUserProfile(userCredential.user); // Guarda en Firestore
-        
-        showMessage('Inicio de sesión exitoso!', 'success'); 
-        redirectToNextPage(); 
-      } catch (error) {
-        hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
-        let errorMessage = 'Error al iniciar sesión. Verifica tu correo y contraseña.';
-        if (error.code === 'auth/user-not-found') {
-            errorMessage = 'Usuario no encontrado. ¿Necesitas registrarte?';
-        } else if (error.code === 'auth/wrong-password') {
-            errorMessage = 'Contraseña incorrecta.';
-        } else if (error.code === 'auth/invalid-email') {
-            errorMessage = 'El formato del correo es inválido.';
-        }
-        showMessage(errorMessage, 'error');
-        console.error("Error al iniciar sesión con correo:", error.message);
-      }
-    };
-
-    window.registerNewAccount = async () => {
-      const nameInput = document.getElementById('register-name');
-      const emailInput = document.getElementById('register-email');
-      const passwordInput = document.getElementById('register-password');
-      const confirmPasswordInput = document.getElementById('register-confirm-password');
-
-      const name = nameInput ? nameInput.value.trim() : '';
-      const email = emailInput ? emailInput.value.trim() : '';
-      const password = passwordInput ? passwordInput.value : '';
-      const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : '';
-
-      // --- Validación de campos ---
-      if (!name) {
-          showMessage('Por favor, ingresa tu nombre.', 'error');
-          return;
-      }
-      if (!email) {
-          showMessage('Por favor, ingresa tu correo electrónico.', 'error');
-          return;
-      }
-      if (!/\S+@\S+\.\S+/.test(email)) {
-          showMessage('Por favor, ingresa un formato de correo electrónico válido.', 'error');
-          return;
-      }
-      if (!password) {
-          showMessage('Por favor, ingresa una contraseña.', 'error');
-          return;
-      }
-      if (password.length < 6) {
-          showMessage('La contraseña debe tener al menos 6 caracteres.', 'error');
-          return;
-      }
-      if (password !== confirmPassword) {
-          showMessage('Las contraseñas no coinciden. Por favor, verifica.', 'error');
-          return;
-      }
-
-      showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log("Registro con correo exitoso:", userCredential.user);
-        
-        await saveUserProfile(userCredential.user, name); // Guarda en Firestore
-
-        showMessage(`¡Cuenta creada exitosamente para ${userCredential.user.email}!`, 'success');
-        redirectToNextPage();
-      } catch (error) {
-        hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
-        let errorMessage = 'Error al registrarse. Intenta con otro correo.';
-        if (error.code === 'auth/email-already-in-use') {
-            errorMessage = 'Este correo ya está en uso. ¿Deseas iniciar sesión?';
-        } else if (error.code === 'auth/invalid-email') {
-            errorMessage = 'El formato del correo es inválido.';
-        } else if (error.code === 'auth/weak-password') {
-             errorMessage = 'La contraseña es demasiado débil. Necesita al menos 6 caracteres.';
-        }
-        showMessage(errorMessage, 'error');
-        console.error("Error al registrarse:", error.message);
-      }
-    };
-
-    window.recoverPassword = async () => {
-        const emailInput = document.getElementById('recover-email');
-        const email = emailInput ? emailInput.value.trim() : '';
-
-        if (!email) {
-            showMessage('Por favor, ingresa tu correo electrónico para recuperar la contraseña.', 'error');
-            return;
-        }
-        if (!/\S+@\S+\.\S+/.test(email)) {
-            showMessage('Por favor, ingresa un formato de correo electrónico válido.', 'error');
-            return;
-        }
-
-        showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
-        try {
-            await sendPasswordResetEmail(auth, email);
-            hideLoadingOverlay(); // Oculta el loading al enviar el correo
-            showMessage('Se ha enviado un correo de recuperación a tu dirección. Por favor, revisa tu bandeja de entrada.', 'success');
-            setTimeout(() => {
-                showLoginForm(); 
-            }, 3000); 
-        } catch (error) {
+            await saveUserProfile(userCredential.user); // Guarda en Firestore
+            
+            showMessage('Inicio de sesión exitoso!', 'success'); 
+            redirectToNextPage(); 
+          } catch (error) {
             hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
-            let errorMessage = 'Error al enviar el correo de recuperación. Asegúrate de que el correo sea válido.';
+            let errorMessage = 'Error al iniciar sesión. Verifica tu correo y contraseña.';
             if (error.code === 'auth/user-not-found') {
-                errorMessage = 'No se encontró una cuenta con ese correo electrónico.';
+                errorMessage = 'Usuario no encontrado. ¿Necesitas registrarte?';
+            } else if (error.code === 'auth/wrong-password') {
+                errorMessage = 'Contraseña incorrecta.';
             } else if (error.code === 'auth/invalid-email') {
-                errorMessage = 'El formato del correo electrónico es inválido.';
+                errorMessage = 'El formato del correo es inválido.';
             }
             showMessage(errorMessage, 'error');
-            console.error("Error al recuperar contraseña:", error.message);
-        }
-    };
+            console.error("Error al iniciar sesión con correo:", error.message);
+          }
+        };
 
+        window.registerNewAccount = async () => {
+          const nameInput = document.getElementById('register-name');
+          const emailInput = document.getElementById('register-email');
+          const passwordInput = document.getElementById('register-password');
+          const confirmPasswordInput = document.getElementById('register-confirm-password');
 
-    // --- Comprobación inicial del estado de autenticación ---
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Usuario ya autenticado: Redirige directamente
-        redirectToNextPage();
-      } else {
-        // No hay usuario autenticado: Muestra el formulario correcto después de un breve delay para que se vea el loading
-        setTimeout(() => {
-            if (document.referrer.includes("go:rapidas")) {
-                // Si el usuario regresa de go:rapidas y no está autenticado, salir de la app
-                window.location.href = "http://action_exit/";
-            } else if (window.location.hash === '#recover') {
-                showRecoverPasswordForm();
-            } else {
-                showLoginForm(); 
+          const name = nameInput ? nameInput.value.trim() : '';
+          const email = emailInput ? emailInput.value.trim() : '';
+          const password = passwordInput ? passwordInput.value : '';
+          const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : '';
+
+          // --- Validación de campos ---
+          if (!name) {
+              showMessage('Por favor, ingresa tu nombre.', 'error');
+              return;
+          }
+          if (!email) {
+              showMessage('Por favor, ingresa tu correo electrónico.', 'error');
+              return;
+          }
+          if (!/\S+@\S+\.\S+/.test(email)) {
+              showMessage('Por favor, ingresa un formato de correo electrónico válido.', 'error');
+              return;
+          }
+          if (!password) {
+              showMessage('Por favor, ingresa una contraseña.', 'error');
+              return;
+          }
+          if (password.length < 6) {
+              showMessage('La contraseña debe tener al menos 6 caracteres.', 'error');
+              return;
+          }
+          if (password !== confirmPassword) {
+              showMessage('Las contraseñas no coinciden. Por favor, verifica.', 'error');
+              return;
+          }
+
+          showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
+          try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log("Registro con correo exitoso:", userCredential.user);
+            
+            await saveUserProfile(userCredential.user, name); // Guarda en Firestore
+
+            showMessage(`¡Cuenta creada exitosamente para ${userCredential.user.email}!`, 'success');
+            redirectToNextPage();
+          } catch (error) {
+            hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
+            let errorMessage = 'Error al registrarse. Intenta con otro correo.';
+            if (error.code === 'auth/email-already-in-use') {
+                errorMessage = 'Este correo ya está en uso. ¿Deseas iniciar sesión?';
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = 'El formato del correo es inválido.';
+            } else if (error.code === 'auth/weak-password') {
+                 errorMessage = 'La contraseña es demasiado débil. Necesita al menos 6 caracteres.';
             }
-            hideLoadingOverlay(); // Oculta el loading después de mostrar el formulario
-        }, 500); // Pequeño delay para que el usuario vea el loading
-      }
-    });
+            showMessage(errorMessage, 'error');
+            console.error("Error al registrarse:", error.message);
+          }
+        };
 
-    // Manejar el evento popstate para detectar si el usuario regresa con el botón de "atrás" del navegador
-    window.addEventListener('popstate', (event) => {
-        showLoadingOverlay(); // Muestra el loading al intentar volver
-        onAuthStateChanged(auth, (user) => {
-            if (!user && window.location.hostname.includes('firebaseapp.com')) { 
-                // Si no hay usuario y estamos en el dominio de Firebase (la app web), salir.
-                window.location.href = "http://action_exit/";
-            } else {
-                // Si hay usuario o no estamos en el dominio de Firebase, se reevalúa la vista
-                if (!user) {
-                    // Si el usuario no está autenticado, se muestra el login
-                    setTimeout(() => {
-                        showLoginForm();
-                        hideLoadingOverlay();
-                    }, 100); // Pequeño delay
-                } else {
-                    // Si el usuario está autenticado, se redirige (onAuthStateChanged ya lo hará)
-                    hideLoadingOverlay(); // Oculta el loading si se va a redirigir
+        window.recoverPassword = async () => {
+            const emailInput = document.getElementById('recover-email');
+            const email = emailInput ? emailInput.value.trim() : '';
+
+            if (!email) {
+                showMessage('Por favor, ingresa tu correo electrónico para recuperar la contraseña.', 'error');
+                return;
+            }
+            if (!/\S+@\S+\.\S+/.test(email)) {
+                showMessage('Por favor, ingresa un formato de correo electrónico válido.', 'error');
+                return;
+            }
+
+            showLoadingOverlay(); // Muestra el loading SOLO si la validación local es correcta
+            try {
+                await sendPasswordResetEmail(auth, email);
+                hideLoadingOverlay(); // Oculta el loading al enviar el correo
+                showMessage('Se ha enviado un correo de recuperación a tu dirección. Por favor, revisa tu bandeja de entrada.', 'success');
+                setTimeout(() => {
+                    showLoginForm(); 
+                }, 3000); 
+            } catch (error) {
+                hideLoadingOverlay(); // Oculta el loading si hay un error de Firebase
+                let errorMessage = 'Error al enviar el correo de recuperación. Asegúrate de que el correo sea válido.';
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No se encontró una cuenta con ese correo electrónico.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'El formato del correo electrónico es inválido.';
                 }
+                showMessage(errorMessage, 'error');
+                console.error("Error al recuperar contraseña:", error.message);
             }
+        };
+
+
+        // --- Comprobación inicial del estado de autenticación ---
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // Usuario ya autenticado: Redirige directamente
+            redirectToNextPage();
+          } else {
+            // No hay usuario autenticado: Muestra el formulario correcto después de un breve delay para que se vea el loading
+            setTimeout(() => {
+                if (document.referrer.includes("go:rapidas")) {
+                    // Si el usuario regresa de go:rapidas y no está autenticado, salir de la app
+                    window.location.href = "http://action_exit/";
+                } else if (window.location.hash === '#recover') {
+                    showRecoverPasswordForm();
+                } else {
+                    showLoginForm(); 
+                }
+                hideLoadingOverlay(); // Oculta el loading después de mostrar el formulario
+            }, 500); // Pequeño delay para que el usuario vea el loading
+          }
         });
-    });
 
-    // Función para guardar o actualizar el perfil del usuario en Firestore (se mantiene igual)
-    async function saveUserProfile(user, name = null) {
-      try {
-        const userDocRef = doc(db, "users", user.uid);
-        await setDoc(userDocRef, {
-          email: user.email,
-          name: name || user.displayName || user.email.split('@')[0],
-          createdAt: serverTimestamp(),
-          photoURL: user.photoURL || "" 
-        }, { merge: true });
-        console.log("Perfil de usuario guardado/actualizado en Firestore:", user.uid);
-      } catch (error) {
-        console.error("Error al guardar el perfil en Firestore:", error);
-      }
-    }
+        // Manejar el evento popstate para detectar si el usuario regresa con el botón de "atrás" del navegador
+        window.addEventListener('popstate', (event) => {
+            showLoadingOverlay(); // Muestra el loading al intentar volver
+            onAuthStateChanged(auth, (user) => {
+                if (!user && window.location.hostname.includes('firebaseapp.com')) { 
+                    // Si no hay usuario y estamos en el dominio de Firebase (la app web), salir.
+                    window.location.href = "http://action_exit/";
+                } else {
+                    // Si hay usuario o no estamos en el dominio de Firebase, se reevalúa la vista
+                    if (!user) {
+                        // Si el usuario no está autenticado, se muestra el login
+                        setTimeout(() => {
+                            showLoginForm();
+                            hideLoadingOverlay();
+                        }, 100); // Pequeño delay
+                    } else {
+                        // Si el usuario está autenticado, se redirige (onAuthStateChanged ya lo hará)
+                        hideLoadingOverlay(); // Oculta el loading si se va a redirigir
+                    }
+                }
+            });
+        });
 
-    // --- Función para la redirección ---
-    function redirectToNextPage() {
-        window.location.href = "go:rapidas";
-    }
+        // Función para guardar o actualizar el perfil del usuario en Firestore (se mantiene igual)
+        async function saveUserProfile(user, name = null) {
+          try {
+            const userDocRef = doc(db, "users", user.uid);
+            await setDoc(userDocRef, {
+              email: user.email,
+              name: name || user.displayName || user.email.split('@')[0],
+              createdAt: serverTimestamp(),
+              photoURL: user.photoURL || "" 
+            }, { merge: true });
+            console.log("Perfil de usuario guardado/actualizado en Firestore:", user.uid);
+          } catch (error) {
+            console.error("Error al guardar el perfil en Firestore:", error);
+          }
+        }
 
-    // Al cargar la página, ocultar formularios y mostrar el loading
-    document.addEventListener('DOMContentLoaded', () => {
-        hideAllForms(); // Asegura que nada se vea antes de que el loading actúe
-        showLoadingOverlay(); // Muestra el loading inmediatamente al cargar
-    });
-  </script>
+        // --- Función para la redirección ---
+        function redirectToNextPage() {
+            window.location.href = "go:rapidas";
+        }
 
+        // Al cargar la página, ocultar formularios y mostrar el loading
+        document.addEventListener('DOMContentLoaded', () => {
+            hideAllForms(); // Asegura que nada se vea antes de que el loading actúe
+            showLoadingOverlay(); // Muestra el loading inmediatamente al cargar
+        });
+    </script>
 </body>
 </html>
