@@ -25,40 +25,60 @@
         --message-error-bg: #F44336;
         --message-success-bg: #8BC34A;
         --tooltip-fixed-width: 300px;
-        --plomo-border: #9e9e9e; /* Color plomo para el nuevo borde */
     }
 
     html, body {
         margin: 0;
         padding: 0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg-light); /* Fondo fuera del contenedor */
         color: var(--text-dark);
+        /* Flexbox para centrar todo el contenido en el cuerpo */
         display: flex;
         flex-direction: column;
-        
-        /* === CAMBIOS PARA CENTRADO DE ESCRITORIO === */
-        min-height: 100vh; 
-        height: 100%;
-        justify-content: center; /* Centrado vertical del contenido */
-        align-items: center; /* Centrado horizontal del contenido */
-        /* ========================================= */
-        
+        min-height: 100vh; /* Asegura que el body ocupe toda la altura de la vista */
+        height: 100%; 
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
-        
-        /* === CAMBIO PARA IMAGEN DE FONDO === */
-        background: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLsYdN3u7Sfqd0Hnpgo9mOMl0SghAv1qHyHn-6Q6F6j8tPneJWHW5bpD7ORuAXyMtQHcTX88wed2bjYWKJK-jB7VPgUF6qZM6fQ4NemoUhhNmhQcB5kRrVY_tsZAObkzEFV9S8XqV_ktaRSQNsukUvpOAeYz2v_aqFxgj1EtmWssdB5pIEHOOo1Wfqokxk/s1024/1000036470.png') no-repeat center center fixed;
-        background-size: cover;
     }
-
-    /* === CONTENEDOR CENTRAL: Fondo Blanco, Borde Plomo y Centrado === */
+    
+    /* === CAMBIO 1: Fondo de imagen para el modo escritorio === */
+    /* Lo aplicamos al body en modo escritorio */
+    @media (min-width: 601px) {
+        body {
+            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLsYdN3u7Sfqd0Hnpgo9mOMl0SghAv1qHyHn-6Q6F6j8tPneJWHW5bpD7ORuAXyMtQHcTX88wed2bjYWKJK-jB7VPgUF6qZM6fQ4NemoUhhNmhQcB5kRrVY_tsZAObkzEFV9S8XqV_ktaRSQNsukUvpOAeYz2v_aqFxgj1EtmWssdB5pIEHOOo1Wfqokxk/s1024/1000036470.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Opcional: para que la imagen no se mueva al hacer scroll */
+        }
+        
+        /* Ajustamos el indicador de carga para que no tenga un fondo blanco opaco sobre la imagen */
+        #loading-indicator {
+            background-color: rgba(255, 255, 255, 0.7); /* Fondo más transparente */
+        }
+    }
+    
+    /* === CAMBIO 2: Centrador en modo escritorio === */
+    /* Usamos un wrapper para centrar el contenido principal (container + footer) */
+    #center-wrapper {
+        flex-grow: 1; /* Ocupa el espacio restante */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centrado vertical */
+        align-items: center; /* Centrado horizontal */
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* === CONTENEDOR CENTRAL: Bordes degradados y Fondo Blanco === */
     .container {
-        flex-grow: 0; 
+        flex-grow: 0;
         width: 100%;
         max-width: 450px; 
-        /* CAMBIO: margin: auto para que el centrado vertical y horizontal de body funcione correctamente */
-        margin: auto; 
+        /* Eliminamos el margin auto vertical para que el centrado de #center-wrapper funcione */
+        margin: 40px auto; 
         height: auto; 
         padding: 40px; 
         box-sizing: border-box;
@@ -68,11 +88,10 @@
         align-items: center;
         background: var(--card-bg); /* Fondo blanco limpio */
         
-        /* === ESTILOS DEL BORDE PLOMO === */
+        /* === ESTILOS DEL BORDE SOLICITADOS === */
         border-radius: 20px; 
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35); /* Sombra un poco más visible */
         
-        /* Borde falso que luego será plomo */
         border: 4px solid transparent; 
         background-clip: padding-box; 
         position: relative;
@@ -83,7 +102,7 @@
         transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     }
 
-    /* Regla para crear el borde, ahora color plomo */
+    /* Regla para crear el borde degradado */
     .container::before {
         content: '';
         position: absolute;
@@ -94,11 +113,9 @@
         z-index: -1;
         margin: -4px; 
         border-radius: 24px; 
-        background: var(--plomo-border); /* CAMBIO: Color plomo sólido */
+        background: var(--button-gradient); /* Degradado azul-verde */
     }
     
-    /* Fin de las modificaciones solicitadas */
-
     /* Estilos del Avatar */
     .avatar {
         width: 100px;
@@ -448,17 +465,9 @@
     
     /* Media Queries para pantallas más pequeñas (móviles) */
     @media (max-width: 600px) {
-        /* Para móvil, volvemos a un fondo simple y ajustamos la altura */
-        html, body {
-            background-image: none;
-            background-color: var(--bg-light);
-            min-height: 100vh;
-            justify-content: flex-start; /* Alineación arriba en móvil */
-        }
-
         .container {
             padding: 30px 20px;
-            margin: 20px auto; /* Mantiene un margen arriba y abajo en móvil */
+            margin: 20px auto; 
             max-width: calc(100% - 40px);
         }
 
@@ -525,17 +534,14 @@
             padding: 25px 20px;
             text-align: center;
             color: var(--text-dark);
-            margin-top: 30px;
+            /* Centrado horizontal y margen inferior para separarlo del borde de la pantalla */
+            margin: 30px auto 20px auto; 
             font-size: 0.9em;
             line-height: 1.6;
             width: 100%; 
             max-width: 450px; 
-            margin-left: auto;
-            margin-right: auto;
             box-sizing: border-box; 
-            /* Importante para que el footer no se pegue al contenedor en pantallas grandes */
-            flex-shrink: 0; 
-            margin-bottom: 20px;
+            flex-shrink: 0; /* Evita que el footer se comprima */
         }
 
         .footer h3 {
@@ -588,6 +594,13 @@
       background-color: rgba(255, 255, 255, 0.9);
       z-index: 9;
     }
+    
+    /* CAMBIO: En modo escritorio, la opacidad es menor para dejar ver el fondo */
+    @media (min-width: 601px) {
+        #loading-indicator {
+            background-color: rgba(255, 255, 255, 0.7); 
+        }
+    }
 
     .pulsing-circle {
       width: 25px;
@@ -623,105 +636,113 @@
   </style>
 </head>
 <body>
-  <div id="login-register-container" class="container">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiQJitHw_3wF_08BjBXLFIZAD0QsIoUYhHWCVXLBAIBopJBGRu-t0a7ffnpm6mY8xo-xIWBDZy7onTdW9XH-V08NFckM2YZUbwTi6J3QtWw3Y5zUBMX6-23atheZZHrbURyEaO5UmwjyL1pE0-90bi68UCagd6WtLlslYraV-0cGpkxvvzjFpMYIfnTZag/s400/1000125345.png" alt="Avatar de Usuario" class="avatar">
+<div id="center-wrapper">
+    <div id="login-register-container" class="container">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiQJitHw_3wF_08BjBXLFIZAD0QsIoUYhHWCVXLBAIBopJBGRu-t0a7ffnpm6mY8xo-xIWBDZy7onTdW9XH-V08NFckM2YZUbwTi6J3QtWw3Y5zUBMX6-23atheZZHrbURyEaO5UmwjyL1pE0-90bi68UCagd6WtLlslYraV-0cGpkxvvzjFpMYIfnTZag/s400/1000125345.png" alt="Avatar de Usuario" class="avatar">
 
-    <div id="login-form" class="login-form">
-        <div class="separator-text">
-            Ingresa con tu correo electrónico
-            <div class="line-below-text"></div> 
+        <div id="login-form" class="login-form">
+            <div class="separator-text">
+                Ingresa con tu correo electrónico
+                <div class="line-below-text"></div> 
+            </div>
+
+            <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
+            
+            <div class="password-container">
+                <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password" class="input-field">
+                <span class="material-icons toggle-password" id="toggle-login-password" onclick="togglePasswordVisibility('login-password', 'toggle-login-password')">visibility</span>
+            </div>
+
+            <button class="primary-btn" onclick="loginWithEmail()">
+                Iniciar sesión
+            </button>
+            
+            <div class="text-link">
+                ¿Olvidaste tu contraseña? <a href="#" onclick="showRecoverPasswordForm(); return false;">Recuperar aquí</a>
+                <div class="line-below-text"></div> 
+            </div>
+            <button id="create-account-button" class="register-btn" onclick="showRegisterForm()">
+                Crear Cuenta
+            </button>
+            </div>
+
+        <div id="register-form" class="register-form">
+            <p>Completa tu registro en consulta pe</p> 
+
+            <div class="tooltip-container">
+                <input type="text" id="register-name" placeholder="Tu nombre" class="input-field">
+                <span class="material-icons tooltip-icon">info_outline</span>
+                <span class="tooltip-text">Ingresa tu nombre completo o como deseas ser llamado en la aplicación.</span>
+            </div>
+
+            <div class="tooltip-container">
+                <input type="email" id="register-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
+                <span class="material-icons tooltip-icon">info_outline</span>
+                <span class="tooltip-text">Este será tu usuario para iniciar sesión y donde recibirás notificaciones.</span>
+            </div>
+            
+            <div class="password-container">
+                <input type="password" id="register-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password" class="input-field">
+                <span class="material-icons toggle-password" id="toggle-register-password" onclick="togglePasswordVisibility('register-password', 'toggle-register-password')">visibility</span>
+            </div>
+            
+            <div class="password-container">
+                <input type="password" id="register-confirm-password" placeholder="Confirmar Contraseña" autocomplete="new-password" class="input-field">
+                <span class="material-icons toggle-password" id="toggle-register-confirm-password" onclick="togglePasswordVisibility('register-confirm-password', 'toggle-register-confirm-password')">visibility</span>
+            </div>
+
+            <button class="primary-btn" onclick="registerNewAccount()">
+                Registrarse
+            </button>
+            
+            <div class="register-policy-links">
+                Al registrarte, aceptas nuestros 
+                <a href="go:terminos">Términos y condiciones</a> <span class="separator-dot">|</span>
+                <a href="go:politica">Política de privacidad</a> <span class="separator-dot">|</span>
+                <a href="go:legal">Aviso legal</a>
+            </div>
+
+            <div class="text-link">
+                ¿Ya tienes una cuenta? <a href="#" onclick="showLoginForm(); return false;">Inicia sesión aquí</a>
+                <div class="line-below-text"></div> 
+            </div>
         </div>
 
-        <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
+        <div id="recover-password-form" class="recover-password-form">
+            <h3>Recuperar Contraseña</h3>
+            <p>Ingresa tu correo electrónico para enviar un enlace de recuperación.</p>
+            
+            <div class="tooltip-container">
+                <input type="email" id="recover-email" placeholder="Correo electrónico" class="input-field">
+                <span class="material-icons tooltip-icon">info_outline</span>
+                <span class="tooltip-text">Ingresa el correo asociado a tu cuenta para recibir las instrucciones de recuperación.</span>
+            </div>
+
+            <button class="primary-btn" onclick="recoverPassword()">
+                Enviar enlace de recuperación
+            </button>
+            <div class="text-link">
+                <a href="#" onclick="showLoginForm(); return false;">Volver al Inicio de Sesión</a>
+            </div>
+        </div>
         
-        <div class="password-container">
-            <input type="password" id="login-password" placeholder="Contraseña" autocomplete="current-password" class="input-field">
-            <span class="material-icons toggle-password" id="toggle-login-password" onclick="togglePasswordVisibility('login-password', 'toggle-login-password')">visibility</span>
-        </div>
-
-        <button class="primary-btn" onclick="loginWithEmail()">
-            Iniciar sesión
-        </button>
-        
-        <div class="text-link">
-            ¿Olvidaste tu contraseña? <a href="#" onclick="showRecoverPasswordForm(); return false;">Recuperar aquí</a>
-            <div class="line-below-text"></div> 
-        </div>
-        <button id="create-account-button" class="register-btn" onclick="showRegisterForm()">
-            Crear Cuenta
-        </button>
-        </div>
-
-    <div id="register-form" class="register-form">
-        <p>Completa tu registro en consulta pe</p> 
-
-        <div class="tooltip-container">
-            <input type="text" id="register-name" placeholder="Tu nombre" class="input-field">
-            <span class="material-icons tooltip-icon">info_outline</span>
-            <span class="tooltip-text">Ingresa tu nombre completo o como deseas ser llamado en la aplicación.</span>
-        </div>
-
-        <div class="tooltip-container">
-            <input type="email" id="register-email" placeholder="Correo electrónico" autocomplete="email" class="input-field">
-            <span class="material-icons tooltip-icon">info_outline</span>
-            <span class="tooltip-text">Este será tu usuario para iniciar sesión y donde recibirás notificaciones.</span>
+        <div id="loading-indicator">
+          <div class="pulsing-circle"></div>
+          <div class="pulsing-circle delay-1"></div>
+          <div class="pulsing-circle delay-2"></div>
         </div>
         
-        <div class="password-container">
-            <input type="password" id="register-password" placeholder="Contraseña (mín. 6 caracteres)" autocomplete="new-password" class="input-field">
-            <span class="material-icons toggle-password" id="toggle-register-password" onclick="togglePasswordVisibility('register-password', 'toggle-register-password')">visibility</span>
-        </div>
-        
-        <div class="password-container">
-            <input type="password" id="register-confirm-password" placeholder="Confirmar Contraseña" autocomplete="new-password" class="input-field">
-            <span class="material-icons toggle-password" id="toggle-register-confirm-password" onclick="togglePasswordVisibility('register-confirm-password', 'toggle-register-confirm-password')">visibility</span>
-        </div>
+        <div id="form-message-tooltip" class="form-message-tooltip"></div>
 
-        <button class="primary-btn" onclick="registerNewAccount()">
-            Registrarse
-        </button>
-        
-        <div class="register-policy-links">
-            Al registrarte, aceptas nuestros 
-            <a href="go:terminos">Términos y condiciones</a> <span class="separator-dot">|</span>
-            <a href="go:politica">Política de privacidad</a> <span class="separator-dot">|</span>
-            <a href="go:legal">Aviso legal</a>
-        </div>
-
-        <div class="text-link">
-            ¿Ya tienes una cuenta? <a href="#" onclick="showLoginForm(); return false;">Inicia sesión aquí</a>
-            <div class="line-below-text"></div> 
-        </div>
-    </div>
-
-    <div id="recover-password-form" class="recover-password-form">
-        <h3>Recuperar Contraseña</h3>
-        <p>Ingresa tu correo electrónico para enviar un enlace de recuperación.</p>
-        
-        <div class="tooltip-container">
-            <input type="email" id="recover-email" placeholder="Correo electrónico" class="input-field">
-            <span class="material-icons tooltip-icon">info_outline</span>
-            <span class="tooltip-text">Ingresa el correo asociado a tu cuenta para recibir las instrucciones de recuperación.</span>
-        </div>
-
-        <button class="primary-btn" onclick="recoverPassword()">
-            Enviar enlace de recuperación
-        </button>
-        <div class="text-link">
-            <a href="#" onclick="showLoginForm(); return false;">Volver al Inicio de Sesión</a>
-        </div>
     </div>
     
-    <div id="loading-indicator">
-      <div class="pulsing-circle"></div>
-      <div class="pulsing-circle delay-1"></div>
-      <div class="pulsing-circle delay-2"></div>
-    </div>
-    
-    <div id="form-message-tooltip" class="form-message-tooltip"></div>
-
-  </div>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <footer class="footer">
+        <h3>Consulta PE</h3>
+        <p>Derechos de autor © 2025. Todos los derechos reservados.</p>
+        <p>¿Necesitas ayuda? <a href="go:ayuda">Contáctanos</a></p>
+    </footer>
+</div>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script type="module">
     // Importa las funciones necesarias de los SDKs de Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
