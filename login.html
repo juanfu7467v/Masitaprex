@@ -17,8 +17,9 @@
         --primary-gradient: linear-gradient(135deg, var(--gradient-dark), var(--gradient-light)); 
         --primary-gradient-rev: linear-gradient(-45deg, var(--gradient-dark), var(--gradient-light)); 
         
-        --form-bg: rgba(255, 255, 255, 0.1); /* Fondo del formulario transparente/claro */
-        --form-bg-mobile: rgba(255, 255, 255, 0.2); /* Fondo del formulario en móvil */
+        /* Ajuste: Fondo de formulario un poco más sólido para el contraste en desktop */
+        --form-bg: rgba(255, 255, 255, 0.2); 
+        --form-bg-mobile: rgba(255, 255, 255, 0.2); /* Mantiene la transparencia en móvil */
 
         --text-dark: #333;
         --text-light: #fff;
@@ -49,7 +50,7 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        overflow: hidden; /* Ocultar el scroll del cuerpo para el diseño a pantalla completa */
+        overflow: hidden; 
         box-sizing: border-box;
     }
     
@@ -57,9 +58,8 @@
     /* --- CONTENEDOR PRINCIPAL (LAPTOP/WEB - PANTALLA GRANDE) --- */
     /* ---------------------------------------------------------------------- */
     .app-container {
-        /* Contenedor completo que simula la tarjeta grande del diseño */
         width: 90%;
-        max-width: 1000px; /* Tamaño máximo para la versión de laptop */
+        max-width: 1000px;
         height: 80vh;
         min-height: 600px;
         background: var(--primary-gradient);
@@ -74,7 +74,7 @@
     /* --- SECCIÓN DE INFORMACIÓN (COLUMNA IZQUIERDA EN LAPTOP) --- */
     /* ---------------------------------------------------------------------- */
     .info-section {
-        flex: 1.2; /* Ocupa más espacio que la columna de formulario */
+        flex: 1.2;
         padding: 40px;
         display: flex;
         flex-direction: column;
@@ -82,8 +82,7 @@
         align-items: center;
         color: var(--text-light);
         text-align: center;
-        background: transparent; /* Se mantiene el color de fondo del padre */
-        transition: all 0.5s ease-in-out;
+        background: transparent;
     }
 
     .info-section h1 {
@@ -104,7 +103,6 @@
     .logo-container .material-symbols-rounded {
         font-size: 72px;
         color: var(--text-light);
-        /* Usar 2 engranajes (como en la imagen) */
         position: relative;
     }
     .logo-container .material-symbols-rounded::before {
@@ -142,7 +140,6 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    /* Estilos para el texto social debajo de los botones en la sección de información */
     .social-or-text {
         margin-top: 25px;
         font-size: 1em;
@@ -162,9 +159,6 @@
         background-color: var(--text-light);
         transition: transform 0.3s ease;
     }
-    .social-circle-icons a:nth-child(1) { background-color: #E67E22; } /* Naranja */
-    .social-circle-icons a:nth-child(2) { background-color: #3498DB; } /* Azul */
-    .social-circle-icons a:nth-child(3) { background-color: #E74C3C; } /* Rojo */
     .social-circle-icons a:hover {
         transform: scale(1.1);
     }
@@ -174,15 +168,15 @@
     /* --- SECCIÓN DE FORMULARIO (COLUMNA DERECHA EN LAPTOP) --- */
     /* ---------------------------------------------------------------------- */
     .form-section {
-        flex: 1; /* Ocupa el espacio restante */
-        background: var(--form-bg); /* Fondo más claro dentro del gradiente */
+        /* Estilos base: Ocupa el espacio restante y tiene un fondo semitransparente ancho */
+        flex: 1; 
+        background: var(--form-bg); 
         padding: 40px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         border-radius: 0 15px 15px 0;
-        transition: all 0.5s ease-in-out;
         box-sizing: border-box;
     }
     
@@ -194,12 +188,30 @@
         font-weight: 600;
     }
 
+    /* Contenedor que se ajusta al contenido (Solicitado) */
     .form-content {
-        width: 100%;
-        max-width: 350px;
-        display: flex;
+        /* Cambio Clave: Usar inline-flex para que el contenedor solo ocupe el espacio del formulario visible */
+        display: inline-flex;
         flex-direction: column;
         align-items: center;
+        width: auto; /* Dejar que el contenido defina el ancho */
+        padding: 30px; /* Padding para separar el formulario del borde del fondo ancho */
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1); /* Contenedor más ancho como fondo */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        min-width: 350px; /* Mínimo para que se vea bien en desktop */
+        transition: all 0.3s ease;
+    }
+
+    /* Estilos de los formularios internos */
+    .login-form, .register-form, .recover-password-form {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Ocupa el ancho del .form-content */
+        max-width: 300px; /* Asegura un ancho máximo para la entrada de texto */
+        position: relative;
+        margin: 0;
     }
 
     /* Campos de entrada (Inputs) */
@@ -215,103 +227,6 @@
         background-color: rgba(255, 255, 255, 0.9);
         color: var(--text-dark);
         box-sizing: border-box;
-    }
-
-    /* Placeholder estilizado */
-    .input-field::placeholder {
-        color: var(--placeholder-color);
-        font-style: italic;
-    }
-
-    .input-field:focus {
-        background-color: var(--input-bg-light);
-        box-shadow: 0 0 0 3px var(--gradient-light);
-    }
-
-    /* Botón Principal (Iniciar Sesión / Registrarse) */
-    .primary-btn {
-        width: 100%; 
-        padding: 14px;
-        border: none;
-        border-radius: 25px;
-        font-size: 1.1em;
-        cursor: pointer;
-        margin-top: 30px;
-        transition: all 0.3s ease;
-        font-weight: bold;
-        box-sizing: border-box;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--text-light);
-        background: var(--button-gradient-reverse); 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .primary-btn:hover {
-      background: var(--primary-gradient);
-      box-shadow: 0 10px 25px var(--shadow-color);
-    }
-    
-    /* Enlaces de texto dentro del formulario (Olvidaste Contraseña, Volver, etc.) */
-    .form-text-link {
-        margin-top: 15px;
-        font-size: 0.95em;
-        display: block;
-        text-align: center;
-        width: 100%;
-        color: var(--text-placeholder-light);
-    }
-
-    .form-text-link a {
-        color: var(--link-color); 
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-    }
-
-    .form-text-link a:hover {
-        color: var(--text-light);
-        text-decoration: underline;
-    }
-
-    /* Checkbox y texto de términos/política */
-    .register-terms-check {
-        margin-top: 15px;
-        width: 100%;
-        font-size: 0.9em;
-        color: var(--text-placeholder-light);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .register-terms-check input[type="checkbox"] {
-        margin-right: 8px;
-        appearance: none;
-        width: 18px;
-        height: 18px;
-        border: 2px solid var(--text-light);
-        border-radius: 4px;
-        position: relative;
-        cursor: pointer;
-        background-color: transparent;
-        transition: background-color 0.2s;
-    }
-
-    .register-terms-check input[type="checkbox"]:checked {
-        background-color: var(--link-color);
-        border-color: var(--link-color);
-    }
-
-    .register-terms-check input[type="checkbox"]:checked::after {
-        content: '✓';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: var(--gradient-dark);
-        font-size: 14px;
-        font-weight: bold;
     }
     
     /* Password container and visibility toggle */
@@ -337,53 +252,90 @@
         line-height: 1;
     }
 
+    /* Botón Principal */
+    .primary-btn {
+        width: 100%; 
+        padding: 14px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1em;
+        cursor: pointer;
+        margin-top: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-light);
+        background: var(--button-gradient-reverse); 
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Enlaces de texto dentro del formulario */
+    .form-text-link {
+        margin-top: 15px;
+        font-size: 0.95em;
+        display: block;
+        text-align: center;
+        width: 100%;
+        color: var(--text-placeholder-light);
+    }
+
+    .form-text-link a {
+        color: var(--link-color); 
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .register-terms-check {
+        margin-top: 15px;
+        width: 100%;
+        font-size: 0.9em;
+        color: var(--text-placeholder-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     /* ---------------------------------------------------------------------- */
     /* --- MEDIA QUERIES (ADAPTACIÓN A MÓVIL) --- */
     /* ---------------------------------------------------------------------- */
     @media (max-width: 900px) {
-        /* Ocultar elementos de la interfaz anterior para el diseño del móvil */
-        .app-container .header-bar, .app-container .footer {
-            display: none;
-        }
-
         html, body {
-            background: var(--primary-gradient); /* Fondo de la pantalla completa */
+            background: var(--primary-gradient); 
         }
         
         .app-container {
             width: 100%;
             height: 100vh;
-            max-width: none;
-            min-height: 100vh;
             border-radius: 0;
             box-shadow: none;
-            flex-direction: column; /* Apilar secciones */
-            justify-content: flex-start; /* Alinear arriba */
-            padding: 0;
-            margin: 0;
+            flex-direction: column;
+            justify-content: flex-start; 
         }
 
-        /* Ocultar la sección de información en móvil */
         .info-section {
             display: none;
-            height: 0;
-            padding: 0;
         }
         
-        /* Modificar la sección del formulario para que sea toda la pantalla */
         .form-section {
             flex: 1;
             width: 100%;
             border-radius: 0;
-            background: var(--form-bg-mobile); /* Fondo más transparente */
+            background: transparent; /* Fondo de la sección completamente transparente */
             padding: 30px 20px;
-            overflow-y: auto; /* Permite desplazamiento si el contenido es largo */
+            justify-content: flex-start; /* Ajustar el formulario hacia arriba */
         }
 
+        /* En móvil, el contenedor interno debe ser transparente */
         .form-content {
-            max-width: 300px;
+            width: 100%;
+            max-width: none;
+            padding: 0; /* Eliminar el padding interno para que el contenedor se ajuste */
+            background: transparent; /* Fondo transparente para el contenedor interno */
+            box-shadow: none;
+            min-width: unset;
         }
-        
+
         /* Ajuste de logo en móvil */
         .logo-mobile {
             display: flex;
@@ -393,41 +345,12 @@
             margin-bottom: 25px;
             padding-top: 10px;
         }
-        .logo-mobile .material-symbols-rounded {
-            font-size: 50px;
-            position: relative;
-        }
-        .logo-mobile .material-symbols-rounded::before {
-            content: 'settings_suggest';
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            font-size: 30px;
-        }
-        .logo-mobile h3 {
-            font-size: 1.5em;
-            margin-top: 5px;
-            margin-bottom: 0;
-        }
     }
 
 
     /* ---------------------------------------------------------------------- */
-    /* --- VISIBILIDAD DE FORMULARIOS Y MENSAJES --- */
+    /* --- MENSAJES DE ERROR/CARGA --- */
     /* ---------------------------------------------------------------------- */
-    .login-form, .register-form, .recover-password-form {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        position: relative;
-    }
-    
-    .register-form .input-field {
-        margin-top: 10px;
-    }
-
-    /* Mensaje de error/éxito */
     #form-message-tooltip {
         position: absolute;
         top: 20px;
@@ -452,7 +375,6 @@
     #form-message-tooltip.error { background-color: var(--error-color); }
     #form-message-tooltip.success { background-color: var(--success-color); }
     
-    /* Indicador de carga (estilo unificado) */
     #loading-indicator {
       display: none; 
       justify-content: center;
