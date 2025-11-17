@@ -77,30 +77,32 @@
         box-sizing: border-box;
     }
     
-    /* Estilo del Encabezado Profesional MODIFICADO */
+    /* ESTILOS MODIFICADOS */
+    
+    /* 1. Estilo del Encabezado Profesional MODIFICADO: Fondo Blanco */
     .header-bar {
-        background: var(--primary-gradient); /* Aplicar degradado a la cabecera */
-        border-bottom: 2px solid var(--secondary-color);
+        background: var(--card-bg); /* Fondo blanco */
+        border-bottom: 2px solid var(--border-color); /* Borde sutil */
         padding: 15px 20px;
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         box-sizing: border-box;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
     }
 
     .header-title {
         font-size: 1.3em;
         font-weight: 700;
-        color: var(--text-light);
-        flex-grow: 1; /* Permite que el texto ocupe el espacio central */
+        color: var(--text-dark); /* Texto oscuro para fondo claro */
+        flex-grow: 1; 
         text-align: center;
-        margin-left: -24px; /* Compensar el icono de la izquierda para centrar mejor el texto */
+        margin-left: -24px; 
     }
     
     .back-icon {
-        color: var(--text-light);
+        color: #3f51b5; /* Color azul para el icono */
         font-size: 24px;
         text-decoration: none;
         padding: 5px;
@@ -111,7 +113,7 @@
         justify-content: center;
     }
     .back-icon:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(63, 81, 181, 0.1);
     }
 
     /* Contenedor Principal: Asegura que el contenido esté centrado en cualquier pantalla */
@@ -225,16 +227,24 @@
       box-shadow: 0 8px 20px var(--shadow-color);
     }
 
-    /* Botón de Registro como acción secundaria */
+    /* 2. Botón de Registro como acción secundaria MODIFICADO: Mismo tamaño que primary-btn */
     .register-btn {
         /* SOBREESCRIBE EL COLOR ORIGINAL PARA USAR EL ROJO */
         background: var(--card-bg);
         color: var(--register-btn-color);
         border: 2px solid var(--register-btn-color);
+        /* Propiedades añadidas/ajustadas para igualar el primary-btn */
+        width: 100%; 
+        padding: 16px; /* Mismo padding que primary-btn */
+        border-radius: 10px; /* Mismo border-radius que primary-btn */
+        font-size: 1.2em; /* Mismo font-size que primary-btn */
         margin-top: 20px;
+        transition: all 0.3s ease; /* Transición para hover */
+        font-weight: bold; /* Mismo font-weight */
+        box-sizing: border-box;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        font-size: 1.2em;
     }
 
     .register-btn:hover {
@@ -689,6 +699,7 @@
         <p>&copy; 2025 MASITAPREX. Soluciones Digitales.</p>
         <div class="social-icons">
             <a href="#" aria-label="Síguenos en Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.86 0-5 2.03-5 5v2.5H6v4h3.5V22h4.5v-8.5z"/></svg></a>
+            <a href="#" aria-label="Síguenos en X (Twitter)"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.34-1.6.57-2.45.65.88-.53 1.55-1.37 1.87-2.37-.83.49-1.75.85-2.7.99C18.66 4.7 17.5 4 16.2 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11 1-.03 0-.06 0-.09 0-3.56 0-6.72-1.89-8.83-4.52-.37.63-.58 1.36-.58 2.15 0 1.48.75 2.8 1.88 3.56-.68-.02-1.32-.2-1.88-.52v.05c0 2.05 1.46 3.76 3.39 4.14-.36.1-.74.15-1.13.15-.28 0-.56-.03-.83-.07.54 1.67 2.14 2.9 4.02 2.94-1.45 1.13-3.29 1.8-5.3 1.8-.35 0-.7-.02-1.04-.06 1.87 1.2 4.08 1.9 6.47 1.9 7.7 0 11.9-6.38 11.9-11.9 0-.18 0-.36-.01-.53.82-.6 1.52-1.3 2.09-2.12z"/></svg></a>
             <a href="#" aria-label="Síguenos en X (Twitter)"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.34-1.6.57-2.45.65.88-.53 1.55-1.37 1.87-2.37-.83.49-1.75.85-2.7.99C18.66 4.7 17.5 4 16.2 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11 1-.03 0-.06 0-.09 0-3.56 0-6.72-1.89-8.83-4.52-.37.63-.58 1.36-.58 2.15 0 1.48.75 2.8 1.88 3.56-.68-.02-1.32-.2-1.88-.52v.05c0 2.05 1.46 3.76 3.39 4.14-.36.1-.74.15-1.13.15-.28 0-.56-.03-.83-.07.54 1.67 2.14 2.9 4.02 2.94-1.45 1.13-3.29 1.8-5.3 1.8-.35 0-.7-.02-1.04-.06 1.87 1.2 4.08 1.9 6.47 1.9 7.7 0 11.9-6.38 11.9-11.9 0-.18 0-.36-.01-.53.82-.6 1.52-1.3 2.09-2.12z"/></svg></a>
             <a href="#" aria-label="Síguenos en LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-9.429c0-2.288-1.722-3.158-3.541-3.158-1.554 0-2.235.853-2.613 1.764v-1.525H7.135v9.429H3.581V7.896h3.554v1.525c.465-.67 1.111-1.626 3.16-1.626 2.551 0 4.417 1.63 4.417 5.16v4.677h3.554v-4.677c0-1.285.867-2.366 2.458-2.366 1.59 0 2.51 1.08 2.51 2.366v4.677zM.581 6.848c0 1.487 1.205 2.68 2.68 2.68s2.68-1.192 2.68-2.68c0-1.487-1.192-2.68-2.68-2.68-1.475 0-2.68 1.193-2.68 2.68z"/></svg></a>
         </div>
