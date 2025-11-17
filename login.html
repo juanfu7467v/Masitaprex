@@ -7,18 +7,18 @@
   <style>
     /* Variables CSS para la paleta de colores */
     :root {
-        --icon-color: #00e676; /* Verde vibrante para los íconos */
-        /* Degradado de azul a verde para botones */
-        --button-gradient: linear-gradient(45deg, #1e88e5, #00e676); 
-        --button-hover-gradient: linear-gradient(45deg, #00e676, #1e88e5); /* Degradado invertido para hover */
+        --icon-color: #9c27b0; /* Morado vibrante para los íconos */
+        /* Degradado de morado a verde para botones */
+        --button-gradient: linear-gradient(45deg, #7b1fa2, #00e676); 
+        --button-hover-gradient: linear-gradient(45deg, #00e676, #7b1fa2); /* Degradado invertido para hover */
         
-        /* NUEVA VARIABLE PARA EL BORDE SOLICITADO: Blanco limpio a Azul degradado */
-        --border-gradient: linear-gradient(45deg, #e3f2fd, #1e88e5, #e3f2fd); /* Azul degradado claro */
+        /* Degradado para el borde: CAMBIO REALIZADO AQUÍ (Blanco - Morado) */
+        --border-gradient: linear-gradient(45deg, #f3e5f5, #9c27b0, #f3e5f5); 
 
         --text-dark: #333;
         --text-light: #fff;
         --bg-light: #f8f9fa;
-        --card-bg: #fff; /* Fondo blanco limpio para el contenedor */
+        --card-bg: transparent; /* CAMBIO CLAVE: Fondo transparente para el contenedor */
         --shadow-light: rgba(0, 0, 0, 0.1);
         --border-color: #e0e0e0;
         --placeholder-color: #999;
@@ -39,30 +39,30 @@
         color: var(--text-dark);
         /* ESTILOS PARA CENTRADO EN ESCRITORIO */
         display: flex;
-        flex-direction: column; /* Cambiado a columna para permitir centrar el contenedor */
+        flex-direction: column; 
         justify-content: center;
         align-items: center;
-        min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+        min-height: 100vh; 
         height: 100vh;
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
-        position: relative; /* Necesario para posicionar la imagen de fondo */
+        position: relative; 
     }
     
     /* === IMAGEN DE FONDO (Modo Escritorio) === */
     .background-image {
-        position: fixed; /* Fija la imagen para que no se mueva con el scroll */
+        position: fixed; 
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Cubre todo el área sin distorsionar */
-        z-index: -2; /* Detrás del body/contenedor */
-        opacity: 0.9; /* Opacidad sutil para no distraer */
+        object-fit: cover; 
+        z-index: -2; 
+        opacity: 0.9; 
     }
 
-    /* === CONTENEDOR CENTRAL: Bordes degradados y Fondo Blanco === */
+    /* === CONTENEDOR CENTRAL: Bordes degradados y Fondo Transparente === */
     .container {
         flex-grow: 0; 
         width: 100%;
@@ -74,11 +74,11 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: var(--card-bg); /* Fondo blanco limpio */
+        background: var(--card-bg); /* Ahora transparente */
         
         /* === ESTILOS DEL BORDE SOLICITADOS === */
         border-radius: 20px; 
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada para destacar */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); 
         
         border: 4px solid transparent; 
         background-clip: padding-box; 
@@ -100,7 +100,7 @@
         z-index: -1;
         margin: -4px; 
         border-radius: 24px; 
-        background: var(--border-gradient); /* ¡NUEVO DEGRADADO! */
+        background: var(--border-gradient); /* Usa el nuevo degradado morado */
     }
     
     /* Estilos del Avatar */
@@ -142,7 +142,7 @@
         border-radius: 12px;
         outline: none;
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        background-color: #f9f9f9;
+        background-color: #f9f9f9; /* Fondo claro para legibilidad del input */
         color: var(--text-dark);
         box-sizing: border-box;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -150,8 +150,8 @@
 
     /* Al enfocar los campos de entrada */
     .input-field:focus {
-        border-color: #1e88e5;
-        box-shadow: 0 0 10px rgba(30, 136, 229, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-color: #9c27b0; /* Color de enfoque en morado */
+        box-shadow: 0 0 10px rgba(156, 39, 176, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
         background-color: #ffffff;
     }
 
@@ -176,7 +176,7 @@
       letter-spacing: 0.5px;
       color: var(--text-light);
       background: var(--button-gradient);
-      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+      box-shadow: 0 4px 10px rgba(123, 31, 162, 0.3);
     }
 
     button:hover {
@@ -194,11 +194,11 @@
     }
 
     .register-btn {
-        background: var(--card-bg);
+        background: var(--card-bg); /* Hereda la transparencia */
         color: var(--icon-color);
         border: 2px solid var(--icon-color);
         margin-top: 20px;
-        box-shadow: 0 4px 10px rgba(0, 230, 118, 0.2);
+        box-shadow: 0 4px 10px rgba(156, 39, 176, 0.2);
         width: 100%;
     }
 
@@ -206,7 +206,7 @@
         background: var(--icon-color);
         color: var(--text-light);
         transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 230, 118, 0.4);
+        box-shadow: 0 6px 15px rgba(156, 39, 176, 0.4);
     }
 
     /* Modificación para el separador "Ingresa con tu correo electrónico" */
@@ -457,7 +457,6 @@
             min-height: auto; 
             height: auto;
             display: block; /* Desactiva flex para el centrado */
-            /* Se eliminó el padding-bottom que era para el footer */
         }
         
         /* Oculta la imagen de fondo en móviles para mejor rendimiento y experiencia */
@@ -545,7 +544,8 @@
     .pulsing-circle {
       width: 25px;
       height: 25px;
-      background-image: linear-gradient(45deg, #1e88e5, #00e676);    
+      /* Ajuste del color del círculo al nuevo degradado morado-verde */
+      background-image: linear-gradient(45deg, #7b1fa2, #00e676);    
       border-radius: 50%;
       margin: 0 12px;
       animation: pulse-circle 1.5s infinite ease-in-out;
@@ -576,7 +576,7 @@
   </style>
 </head>
 <body>
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLsYdN3u7Sfqd0Hnpgo9mOMl0SghAv1qHyHn-6Q6F6j8tPneJWHW5bpD7ORuAXyMtQHcTX88wed2bjYWKJK-jB7VPgUF6qZM6fQ4NemoUhhNmhQcB5kRrVY_tsZAObkzEFV9S8XqV_ktaRSQNsukUvpOAeYz2v_aqFxgj1EtmWssdB5pIEHOOo1Wfqokxk/s1024/1000036470.png" alt="Imagen de fondo de escritorio" class="background-image">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLsYdN3u7Sfqd0Hnpgo9mOMl0SghAv1qHyHn-6Q6F6j8tPneJWHW5bpD7ORuAXyMtQHcTX88wed2bjYWKJK-jB7VPgUF6qZM6fQ4NemoUhhNmhQcB5kRrVY_tsZAObkzEFV9S8XvV_ktaRSQNsukUvpOAeYz2v_aqFxgj1EtmWssdB5pIEHOOo1Wfqokxk/s1024/1000036470.png" alt="Imagen de fondo de escritorio" class="background-image">
     
     <div id="login-register-container" class="container">
         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiiQJitHw_3wF_08BjBXLFIZAD0QsIoUYhHWCVXLBAIBopJBGRu-t0a7ffnpm6mY8xo-xIWBDZy7onTdW9XH-V08NFckM2YZUbwTi6J3QtWw3Y5zUBMX6-23atheZZHrbURyEaO5UmwjyL1pE0-90bi68UCagd6WtLlslYraV-0cGpkxvvzjFpMYIfnTZag/s400/1000125345.png" alt="Avatar de Usuario" class="avatar">
