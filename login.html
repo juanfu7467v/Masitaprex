@@ -8,64 +8,65 @@
     /* Variables CSS para la paleta de colores */
     :root {
         --icon-color: #00e676; /* Verde vibrante para los íconos */
-        --button-gradient: linear-gradient(45deg, #1e88e5, #00e676); /* Degradado de azul a verde para botones */
+        /* Degradado de azul a verde para botones y BORDE */
+        --button-gradient: linear-gradient(45deg, #1e88e5, #00e676); 
         --button-hover-gradient: linear-gradient(45deg, #00e676, #1e88e5); /* Degradado invertido para hover */
         --text-dark: #333;
         --text-light: #fff;
         --bg-light: #f8f9fa;
-        --card-bg: #fff;
+        --card-bg: #fff; /* Fondo blanco limpio para el contenedor */
         --shadow-light: rgba(0, 0, 0, 0.1);
-        --border-color: #e0e0e0; /* Un gris claro para bordes */
+        --border-color: #e0e0e0;
         --placeholder-color: #999;
         --error-color: #F44336;
         --success-color: #8BC34A;
-        --tooltip-bg-color: #F44336; /* Color de fondo para el tooltip de error */
+        --tooltip-bg-color: #F44336;
         --tooltip-text-color: #fff;
-        --message-error-bg: #F44336; /* Color de fondo para mensajes de error */
-        --message-success-bg: #8BC34A; /* Color de fondo para mensajes de éxito */
-        --tooltip-fixed-width: 300px; /* Ancho fijo para tooltips de información */
+        --message-error-bg: #F44336;
+        --message-success-bg: #8BC34A;
+        --tooltip-fixed-width: 300px;
     }
 
     html, body {
         margin: 0;
         padding: 0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--bg-light);
+        background: var(--bg-light); /* Fondo fuera del contenedor */
         color: var(--text-dark);
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
-        height: 100%;
+        /* CAMBIO: Eliminado min-height: 100vh y height: 100% para evitar altura forzada en escritorio */
+        min-height: auto; 
+        height: auto; 
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
     }
 
-    /* === MODIFICACIONES SOLICITADAS AQUÍ === */
+    /* === CONTENEDOR CENTRAL: Bordes degradados y Fondo Blanco === */
     .container {
-        flex-grow: 1;
+        flex-grow: 0; /* Cambio: Desactiva el crecimiento para que no ocupe todo el espacio vertical */
         width: 100%;
         max-width: 450px; 
-        margin: 40px auto; /* Agregado margen superior/inferior para mejor vista */
-        height: auto; 
-        padding: 40px; /* Aumentado el padding interior */
+        margin: 40px auto; /* Centrar y margen superior/inferior para no estar pegado */
+        height: auto; /* Altura ajustada al contenido */
+        padding: 40px; 
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: var(--card-bg);
+        background: var(--card-bg); /* Fondo blanco limpio */
         
-        /* === MODIFICACIONES SOLICITADAS === */
-        border-radius: 20px; /* Bordes redondeados */
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Sombra más profunda */
+        /* === ESTILOS DEL BORDE SOLICITADOS === */
+        border-radius: 20px; 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave, eliminado box-shadow fuerte anterior */
         
-        /* Borde degradado (usando un borde estándar y luego un background-clip para el degradado) */
-        border: 4px solid transparent; /* Borde sólido transparente para el clip */
-        background-clip: padding-box; /* El background-clip no corta el padding */
+        border: 4px solid transparent; 
+        background-clip: padding-box; 
         position: relative;
-        z-index: 1; /* Para asegurar que el borde degradado se vea */
-        overflow: hidden; /* Oculta el degradado que se desborde */
+        z-index: 1; 
+        overflow: hidden; 
         /* ================================== */
         
         transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -80,8 +81,8 @@
         bottom: 0;
         left: 0;
         z-index: -1;
-        margin: -4px; /* Ajusta el margen negativo para el grosor del borde */
-        border-radius: 24px; /* Un poco más grande que el border-radius del contenedor */
+        margin: -4px; 
+        border-radius: 24px; 
         background: var(--button-gradient); /* Usamos el degradado azul-verde */
     }
     
@@ -262,7 +263,7 @@
     .form-message-tooltip::after {
         content: "";
         position: absolute;
-        top: 100%; /* En la parte inferior del tooltip */
+        top: 100%; 
         left: 50%;
         margin-left: -10px;
         border-width: 10px;
@@ -437,8 +438,8 @@
     /* Media Queries para pantallas más pequeñas (móviles) */
     @media (max-width: 600px) {
         .container {
-            padding: 30px 20px; /* Ajuste para el nuevo padding */
-            margin: 20px auto; /* Para que haya espacio alrededor del contenedor */
+            padding: 30px 20px;
+            margin: 20px auto; 
             max-width: calc(100% - 40px);
         }
 
@@ -473,7 +474,7 @@
         .tooltip-container,
         .register-policy-links 
          {
-            width: 100%; /* Full width on small screens */
+            width: 100%;
             max-width: none;
             padding-left: 0;
             padding-right: 0;
@@ -481,7 +482,7 @@
         
         .separator-text::before,
         .separator-text::after {
-            width: 35%; /* Ajusta el ancho de las líneas para móviles */
+            width: 35%;
         }
 
 
