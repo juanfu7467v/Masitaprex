@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tienda de Apps Gratis</title>
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Custom configuration for Tailwind */
+    :root {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* El color morado ha sido reemplazado por clases en el HTML (bg-white/70 backdrop-blur-sm) */
+    .teal-main { color: #00c4a8; }
+    .teal-bg { background-color: #00c4a8; }
+
+    /* Estilos para el slider de la vista principal */
+    .slider {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .slider::-webkit-scrollbar {
+      display: none;
+    }
+    /* Estilo de la tarjeta para todas las vistas */
+    .card:active {
+      transform: scale(0.98);
+      transition: transform 0.1s ease-out;
+    }
+    /* Estilo para el botón Instalar */
+    .install-button {
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .install-button:hover {
+        background-color: #00b099; /* Slightly darker teal */
+        box-shadow: 0 4px 15px rgba(0, 196, 168, 0.4);
+    }
+    /* Clase para la descripción HTML sin estilos por defecto */
+    .app-description-content img {
+        display: none !important; /* Oculta imágenes incrustadas en la descripción */
+    }
+    .app-description-content p, .app-description-content div {
+        margin-bottom: 0.5rem;
+    }
+    .app-description-content b, .app-description-content strong {
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* --- ESTILOS ESPECÍFICOS PARA EL DETALLE DE APP --- */
+    /* Slider de capturas de pantalla (scrollable con snaps) */
+    #screenshot-slider {
+      scroll-snap-type: x mandatory;
+      overflow-x: scroll;
+    }
+    .screenshot-item {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+    /* Estilo para el header transparente sobre el banner */
+    .detail-header-overlay {
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra para el texto blanco sobre imagen */
+    }
+
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Main Container: Holds all views -->
+  <div id="app-container" class="w-full max-w-xl mx-auto shadow-xl">
+
+    <!-- 1. HOME VIEW (Lista de Populares y Secciones) -->
+    <div id="home-view" class="p-0">
+      
+      <!-- HEADER DINÁMICO (Título y Buscador) -->
+      <header class="sticky top-0 z-50 bg-white shadow-md">
+        
+        <!-- 1A. Título y Botón de Búsqueda (Visible por defecto) -->
+        <div id="header-main" class="flex justify-between items-center px-4 py-3">
+            <div class="w-6"></div> 
+            <h1 class="text-xl font-bold text-gray-800">Tienda de Apps Gratis</h1>
+            <!-- Icono de Búsqueda para activar el campo -->
+            <button onclick="toggleSearch()" class="w-6 text-xl text-gray-800 p-1 hover:text-teal-main">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- 1B. Barra de Búsqueda (Oculta por defecto) -->
+        <div id="search-bar-container" class="hidden px-4 pt-0 pb-3">
+            <div class="search-input-container flex items-center bg-gray-100 rounded-full shadow-inner px-3 py-2">
+                <button onclick="toggleSearch()" class="text-xl text-gray-500 mr-2 p-1 rounded-full hover:bg-gray-200">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                
+                <input 
+                    id="search-input" 
+                    type="text" 
+                    placeholder="Busca apps. Ej: WhatsApp" 
+                    oninput="buscarApps(this.value)" 
+                    class="flex-grow p-1 border-none text-base bg-transparent outline-none placeholder-gray-400" 
+                />
+                
+                <button onclick="buscarApps('')" id="clear-search-btn" class="hidden text-gray-500 ml-2">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+        </div>
+      </header>
+
+      <!-- Content Sections (Home) -->
+      <main class="p-4 pt-4"> 
+
+        <!-- Loading Indicator (CENTRADO) -->
+        <div id="loading-spinner" class="flex flex-col items-center justify-center h-[30vh] hidden">
+            <i class="fas fa-spinner fa-spin text-4xl teal-main mb-3"></i>
+            <p class="text-gray-600">Cargando aplicaciones...</p>
+        </div>
+
+        <!-- Search Results Section -->
+        <div id="search-results-section" class="mb-6 hidden">
+          <h2 class="text-xl font-bold flex justify-between items-center mb-3">
+            Resultados de búsqueda
+          </h2>
+          <div class="slider flex overflow-x-auto gap-3 pb-3" id="slider-search-results">
+          </div>
+        </div>
+
+        <!-- Dynamic App Sections -->
+        <div id="app-sections">
+          <!-- Sections will be populated by JavaScript -->
+        </div>
+      </main>
+
+      <!-- Footer (Adaptado) -->
+      <footer class="bg-white text-gray-600 p-6 text-sm grid grid-cols-2 gap-4 border-t-2 border-gray-200 mt-6">
+        <div class="footer-left pr-4 border-r border-gray-300">
+          Tienda de Apps Gratis<br>
+          Desarrollado con Gemini API<br>
+          Licencia: Creative Commons
+        </div>
+        <div class="footer-right pl-4">
+          Versión: 1.0<br>
+          Políticas: Privacidad y Términos<br>
+          Contacto: support@appstore.com
+        </div>
+      </footer>
+    </div>
+
+    <!-- 2. CATEGORY LIST VIEW (Nueva Vista de Rejilla de Categoría) -->
+    <div id="category-view" class="hidden w-full h-full bg-gray-100">
+        <!-- Header para la Vista de Categoría -->
+        <header class="sticky top-0 z-50 bg-white shadow-md">
+            <!-- Título, Botón de Regreso y Buscador -->
+            <div id="category-header-main" class="flex justify-between items-center px-4 py-3">
+                <button onclick="hideCategoryView()" class="w-6 text-xl text-gray-800 p-1 hover:text-teal-main"><i class="fas fa-arrow-left"></i></button> 
+                <h1 id="category-title" class="text-xl font-bold text-gray-800 truncate mx-2">Nombre de Categoría</h1>
+                <button onclick="toggleCategorySearch()" class="w-6 text-xl text-gray-800 p-1 hover:text-teal-main">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <!-- Barra de Búsqueda de Categoría (Oculta) -->
+            <div id="category-search-bar-container" class="hidden px-4 pt-0 pb-3">
+                <div class="search-input-container flex items-center bg-gray-100 rounded-full shadow-inner px-3 py-2">
+                    <button onclick="toggleCategorySearch()" class="text-xl text-gray-500 mr-2 p-1 rounded-full hover:bg-gray-200">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <input 
+                        id="category-search-input" 
+                        type="text" 
+                        placeholder="Buscar en esta categoría..." 
+                        oninput="filterCategoryApps(this.value)" 
+                        class="flex-grow p-1 border-none text-base bg-transparent outline-none placeholder-gray-400" 
+                    />
+                </div>
+            </div>
+        </header>
+
+        <!-- App Grid for Category List -->
+        <main class="p-4">
+            <div id="category-app-grid" class="grid grid-cols-2 gap-4">
+                <!-- Apps will be inserted here -->
+            </div>
+            <div id="category-no-results" class="hidden text-center text-gray-500 mt-10 p-6 bg-white rounded-lg shadow-md">
+                No se encontraron aplicaciones en esta categoría.
+            </div>
+        </main>
+    </div>
+
+    <!-- 3. APP DETAIL VIEW -->
+    <div id="app-detail-view" class="hidden w-full h-full bg-white">
+      
+      <!-- App Header/Banner/Slider Container -->
+      <div id="detail-image-container" class="relative w-full h-[300px] overflow-hidden">
+        
+        <!-- Slider de Capturas de Pantalla -->
+        <div id="screenshot-slider" class="w-full h-full flex overflow-x-scroll snap-x snap-mandatory slider">
+          <!-- Screenshots will be inserted here -->
+        </div>
+
+        <!-- Header Bar (Overlay - Fixed Position to appear over the image when scrolling) -->
+        <header id="detail-header" class="fixed top-0 w-full max-w-xl z-20 flex justify-between items-center px-4 py-3 bg-transparent text-white detail-header-overlay">
+          <button onclick="hideDetailView()" class="text-2xl"><i class="fas fa-arrow-left"></i></button>
+          <h1 class="text-lg font-semibold truncate mx-2" id="detail-app-name-header">Detalle de Aplicación</h1>
+          <button class="text-2xl"><i class="fas fa-share-alt"></i></button> 
+        </header>
+        <!-- EL ICONO SE HA MOVIDO FUERA DE ESTE CONTENEDOR -->
+      </div>
+      
+      <!-- Nuevo Contenedor del Icono (en el espacio blanco) -->
+      <div class="relative px-4 -mt-10 mb-6 z-10">
+        <img id="detail-app-icon" src="" alt="Icono de la app" class="w-20 h-20 rounded-xl shadow-lg border-4 border-white object-cover">
+      </div>
+
+
+      <!-- Detail Content -->
+      <main class="bg-white pb-24 pt-0"> <!-- pt-16 ha sido removido -->
+        
+        <!-- Main Info Section -->
+        <div class="p-4 pt-0"> <!-- Ajuste de padding top -->
+          
+          <h2 id="detail-app-title" class="text-2xl font-bold mb-1">Cargando Título...</h2>
+          <p id="detail-developer-name" class="text-gray-500 text-sm mb-4">Desarrollador</p>
+          
+          <!-- Metadatos (Puntuación, Descargas, Categoría) -->
+          <div class="flex justify-around items-center text-center border-y py-4 mb-6">
+            <div class="flex flex-col items-center">
+                <span id="detail-score" class="text-xl font-bold teal-main">4.5</span>
+                <span id="detail-ratings" class="text-xs text-gray-500">2M Opiniones</span>
+            </div>
+            <div class="flex flex-col items-center border-x px-6">
+                <span id="detail-installs" class="text-xl font-bold text-gray-800">10M+</span>
+                <span class="text-xs text-gray-500">Descargas</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span id="detail-category" class="text-xl font-bold text-gray-800">Social</span>
+                <span class="text-xs text-gray-500">Categoría</span>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold mb-3 text-gray-800">Descripción</h3>
+          <div id="detail-description-full" class="text-gray-700 leading-relaxed mb-6 app-description-content">
+            <!-- Full description (HTML) will load here -->
+          </div>
+          
+          <div class="text-sm text-gray-500 border-t pt-4">
+            <p><strong>Última actualización:</strong> <span id="detail-updated-date">Cargando...</span></p>
+            <p><strong>Clasificación:</strong> Para todos</p>
+          </div>
+
+        </div>
+      </main>
+
+      <!-- Fixed Bottom Action Bar (Instalar) -->
+      <div class="fixed bottom-0 w-full max-w-xl p-4 bg-white shadow-2xl border-t border-gray-200 flex justify-center items-center z-50">
+        <!-- Button Instalar -->
+        <button onclick="installApp()" class="w-full py-3 teal-bg text-white font-bold rounded-lg shadow-md install-button">
+          <i class="fas fa-download mr-2"></i> Instalar (Gratis)
+        </button>
+      </div>
+    </div>
+    
+    <!-- Modal (Para reemplazar alert()) -->
+    <div id="app-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-[9999] hidden">
+        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm text-center">
+            <h3 class="text-xl font-bold mb-4" id="modal-title"></h3>
+            <p class="text-gray-600 mb-6" id="modal-message"></p>
+            <button onclick="closeModal()" class="w-full py-2 teal-bg text-white font-semibold rounded-lg">Aceptar</button>
+        </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- CONFIGURATION ---
+    const BASE_URL = 'https://apps-masitaprex-v2.fly.dev';
+    const PLACEHOLDER_ICON = "https://placehold.co/100x100/eeeeee/333333?text=APP"; // Changed placeholder icon color
+    const PLACEHOLDER_HEADER = "https://placehold.co/400x300/e0f2f1/00c4a8?text=HEADER";
+
+    // --- STATE VARIABLES ---
+    let currentCategory = null; // Para saber qué categoría estamos viendo
+    let currentApp = null;
+    let categoryAppsCache = {}; // Cache para guardar apps por categoría
+    let sliderInterval = null; // Para el auto-scroll de las capturas de pantalla
+
+    // --- UTILITIES ---
+
+    /**
+     * Muestra un mensaje modal al usuario.
+     */
+    function showModal(title, message) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-message').textContent = message;
+        document.getElementById('app-modal').classList.remove('hidden');
+    }
+
+    /**
+     * Oculta el mensaje modal.
+     */
+    function closeModal() {
+        document.getElementById('app-modal').classList.add('hidden');
+    }
+
+    /**
+     * Realiza una solicitud fetch con reintentos y retroceso exponencial.
+     */
+    async function fetchWithRetry(url, options = {}, retries = 3) {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                const data = await response.json();
+                if (!data.ok) {
+                    throw new Error(`Error en la API: ${data.error || 'Operación fallida'}`);
+                }
+                return data;
+            } catch (error) {
+                if (i === retries - 1) {
+                    console.error(`Fallo en la solicitud después de ${retries} reintentos:`, error);
+                    throw new Error(`No se pudo conectar con el servicio: ${error.message}`);
+                }
+                const delay = Math.pow(2, i) * 1000; // 1s, 2s, 4s
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+
+    /**
+     * Formatea el número de instalaciones para hacerlo legible.
+     */
+    function formatInstalls(installsText) {
+        if (!installsText) return 'N/A';
+        // Simplemente elimina el '+' si existe para mantener el formato original de la API
+        return installsText.replace('+', '');
+    }
+
+    /**
+     * Muestra u oculta el spinner de carga.
+     */
+    function showLoading(show) {
+        const spinner = document.getElementById('loading-spinner');
+        spinner.classList.toggle('hidden', !show);
+        document.getElementById('app-sections').classList.toggle('hidden', show);
+    }
+
+    // --- DATA FETCHING & RENDERING ---
+
+    /**
+     * Carga y renderiza las aplicaciones más populares y algunas categorías en la Home.
+     */
+    async function loadHomeContent() {
+        showLoading(true);
+        const container = document.getElementById('app-sections');
+        container.innerHTML = '';
+        
+        try {
+            // 1. Cargar Populares
+            const popularData = await fetchWithRetry(`${BASE_URL}/api/public/apps/popular`);
+            if (popularData.apps && popularData.apps.length > 0) {
+                container.insertAdjacentHTML('beforeend', createSection('Apps Populares', popularData.apps.slice(0, 10), 'home'));
+            }
+
+            // 2. Cargar Categorías (usando un ejemplo fijo para el demo)
+            const categoriesToLoad = ['Comunicación', 'Juegos', 'Entretenimiento'];
+            for (const category of categoriesToLoad) {
+                const categoryData = await fetchWithRetry(`${BASE_URL}/api/public/apps/categories?category=${category}`);
+                if (categoryData.apps && categoryData.apps.length > 0) {
+                     // Solo mostramos los 10 primeros en el slider de la Home
+                    container.insertAdjacentHTML('beforeend', createSection(category, categoryData.apps.slice(0, 10), 'home'));
+                    // Cacheamos todas las apps de la categoría para la vista de rejilla rápida
+                    categoryAppsCache[category] = categoryData.apps;
+                }
+            }
+
+        } catch (error) {
+            container.innerHTML = `<p class="text-red-500 p-4 text-center">Error al cargar la tienda: ${error.message}</p>`;
+        } finally {
+            showLoading(false);
+        }
+    }
+
+    /**
+     * Realiza la búsqueda de aplicaciones.
+     */
+    async function buscarApps(textoBusqueda) {
+        textoBusqueda = textoBusqueda.toLowerCase().trim();
+        const searchResultsSection = document.getElementById('search-results-section');
+        const searchResultsSlider = document.getElementById('slider-search-results');
+        const clearBtn = document.getElementById('clear-search-btn');
+        const productSections = document.getElementById('app-sections');
+
+        if (textoBusqueda === '') {
+            clearBtn.classList.add('hidden');
+            searchResultsSection.classList.add('hidden');
+            productSections.classList.remove('hidden');
+            return;
+        }
+        
+        clearBtn.classList.remove('hidden');
+        productSections.classList.add('hidden');
+        searchResultsSection.classList.remove('hidden');
+        searchResultsSlider.innerHTML = '<p class="p-4 text-center text-gray-500 w-full">Buscando...</p>';
+
+        try {
+            const data = await fetchWithRetry(`${BASE_URL}/api/public/apps/search?query=${encodeURIComponent(textoBusqueda)}`);
+            const foundResults = data.apps || [];
+            
+            if (foundResults.length > 0) {
+                searchResultsSlider.innerHTML = foundResults.map(app => createAppCard(app, 'search')).join('');
+            } else {
+                searchResultsSlider.innerHTML = '<p class="p-4 text-center text-gray-500 w-full">No se encontraron aplicaciones que coincidan con la búsqueda.</p>';
+            }
+        } catch (error) {
+            searchResultsSlider.innerHTML = `<p class="p-4 text-center text-red-500 w-full">Error de búsqueda: ${error.message}</p>`;
+        }
+    }
+
+
+    // --- RENDERING HELPERS ---
+
+    /**
+     * Genera el HTML para una sección de apps (Slider en Home).
+     */
+    function createSection(sectionTitle, apps, source) {
+      const sliderContent = apps.map(app => createAppCard(app, source)).join('');
+      
+      return `
+        <div class="mb-6">
+          <h2 class="text-xl font-bold flex justify-between items-center mb-3">
+            ${sectionTitle}
+            <!-- El botón "Ver más" solo aplica si no son los resultados de búsqueda -->
+            ${source !== 'search' ? `<a href="#" onclick="event.preventDefault(); showCategoryView('${sectionTitle}')" class="teal-main text-sm font-semibold hover:underline">Ver más</a>` : ''}
+          </h2>
+          <div class="slider flex overflow-x-auto gap-3 pb-3">
+            ${sliderContent}
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * Genera el HTML para una tarjeta de aplicación (Home/Slider).
+     * MODIFICADO: Estructura de tarjeta con mitad transparente e icono que llena el ancho.
+     */
+    function createAppCard(app, source) {
+      const appTitle = app.name || app.title || 'App sin nombre'; 
+      const scoreIcon = app.score > 4 ? 'fas fa-star text-yellow-500' : 'fas fa-star-half-alt text-yellow-500';
+      
+      // La altura de la tarjeta es de 280px para tener 140px la mitad superior y 140px blanco
+      return `
+        <div class="card rounded-xl shadow-md overflow-hidden flex-shrink-0 w-44 h-[280px]" onclick="showDetailView('${app.appId}')">
+          <!-- Top Half: Transparent-like Background with Icon filling the space -->
+          <div class="bg-white/70 backdrop-blur-sm h-1/2 flex items-center justify-center p-1 rounded-t-xl">
+            <img 
+                src="${app.icon || PLACEHOLDER_ICON}" 
+                onerror="this.onerror=null;this.src='${PLACEHOLDER_ICON}';"
+                alt="${appTitle}" 
+                class="w-full h-full object-cover rounded-xl"
+            />
+          </div>
+
+          <!-- Bottom Half: White Background with Text Content -->
+          <div class="bg-white h-1/2 p-3 text-center flex flex-col justify-between cursor-pointer">
+            <p class="text-sm font-semibold text-gray-800 h-10 overflow-hidden mb-1">${appTitle}</p>
+            
+            <div class="flex items-center justify-center text-sm mb-2">
+                <i class="${scoreIcon} text-xs mr-1"></i>
+                <span class="font-bold text-gray-900">${app.scoreText || 'N/A'}</span>
+                <span class="text-xs text-gray-400 ml-1">(${Math.floor(app.ratings / 1000)}k)</span>
+            </div>
+
+            <button class="text-sm font-semibold teal-main py-1 px-3 rounded-full border border-teal-main/50 hover:bg-teal-main/10 transition duration-150">
+              Gratis
+            </button>
+          </div>
+        </div>
+      `;
+    }
+    
+    /**
+     * Genera el HTML para una tarjeta de aplicación (Category Grid).
+     * MODIFICADO: Se utiliza el nuevo diseño de tarjeta para consistencia.
+     */
+    function createAppGridItem(app) {
+        // FIX: Usar app.name como predeterminado para el título, como se solicitó.
+        const appTitle = app.name || app.title || 'App sin nombre';
+        const scoreIcon = app.score > 4 ? 'fas fa-star text-yellow-500' : 'fas fa-star-half-alt text-yellow-500';
+        
+        return `
+            <div class="card rounded-xl shadow-md overflow-hidden w-full h-[250px] cursor-pointer transition transform hover:scale-[1.02]" onclick="showDetailView('${app.appId}')">
+                <!-- Top Half: Transparent-like Background with Icon -->
+                <div class="bg-white/70 backdrop-blur-sm h-1/2 flex items-center justify-center p-1 rounded-t-xl">
+                    <img 
+                        src="${app.icon || PLACEHOLDER_ICON}" 
+                        onerror="this.onerror=null;this.src='${PLACEHOLDER_ICON}';"
+                        alt="${appTitle}" 
+                        class="w-full h-full object-cover rounded-xl"
+                    />
+                </div>
+                
+                <!-- Bottom Half: White Background with Text Content -->
+                <div class="bg-white h-1/2 p-3 flex flex-col justify-between">
+                    <p class="text-base font-semibold text-gray-800 h-10 overflow-hidden mb-1">${appTitle}</p>
+                    <p class="text-xs text-gray-500 mb-2 truncate">${app.developer || 'Desconocido'}</p>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm">
+                            <i class="${scoreIcon} text-xs mr-1"></i>
+                            <span class="font-bold text-gray-900">${app.scoreText || 'N/A'}</span>
+                        </div>
+                        <button class="text-sm font-semibold teal-main">
+                            Instalar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    /**
+     * Dibuja el carrusel de capturas de pantalla y el encabezado de la app.
+     */
+    function renderScreenshotSlider(app) {
+        const slider = document.getElementById('screenshot-slider');
+        
+        // Usar headerImage como primera slide si no hay screenshots
+        let screenshots = app.screenshots || [];
+        if (app.headerImage && screenshots.length === 0) {
+            screenshots = [app.headerImage];
+        }
+
+        slider.innerHTML = ''; // Limpiar contenido
+        
+        if (screenshots.length === 0) {
+             // Si no hay imágenes, mostrar placeholder
+            slider.insertAdjacentHTML('beforeend', `
+                <div class="screenshot-item w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-lg">
+                    Sin capturas disponibles
+                </div>
+            `);
+            stopSliderAutoplay();
+            return;
+        }
+
+        // Crear slides
+        screenshots.forEach(src => {
+            slider.insertAdjacentHTML('beforeend', `
+                <div class="screenshot-item w-full h-full">
+                    <img 
+                        src="${src}" 
+                        onerror="this.onerror=null;this.src='${PLACEHOLDER_HEADER}';"
+                        alt="Captura de pantalla de la app" 
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+            `);
+        });
+
+        // Iniciar auto-scroll
+        startSliderAutoplay(slider);
+    }
+
+    /**
+     * Inicia el intervalo para el auto-scroll.
+     */
+    function startSliderAutoplay(sliderElement) {
+        stopSliderAutoplay(); // Asegurar que no hay otro intervalo corriendo
+
+        // 5 segundos de intervalo
+        sliderInterval = setInterval(() => {
+            const currentScroll = sliderElement.scrollLeft;
+            const itemWidth = sliderElement.querySelector('.screenshot-item')?.clientWidth || 0;
+            
+            if (itemWidth === 0) return; // Evitar división por cero
+
+            const totalWidth = sliderElement.scrollWidth;
+            const maxScroll = totalWidth - sliderElement.clientWidth;
+            
+            let nextScroll = currentScroll + itemWidth;
+
+            // Si el siguiente scroll excede el máximo, regresa al inicio (loop)
+            if (nextScroll >= maxScroll) {
+                nextScroll = 0;
+            }
+
+            sliderElement.scrollTo({
+                left: nextScroll,
+                behavior: 'smooth'
+            });
+        }, 5000); // 5 segundos
+    }
+
+    /**
+     * Detiene el intervalo de auto-scroll.
+     */
+    function stopSliderAutoplay() {
+        if (sliderInterval) {
+            clearInterval(sliderInterval);
+            sliderInterval = null;
+        }
+    }
+
+
+    // --- VIEW MANAGEMENT (Home View) ---
+
+    /**
+     * Alterna la visibilidad entre el título principal y la barra de búsqueda de la Home.
+     */
+    function toggleSearch() {
+        const mainHeader = document.getElementById('header-main');
+        const searchContainer = document.getElementById('search-bar-container');
+        const searchInput = document.getElementById('search-input');
+        const searchResultsSection = document.getElementById('search-results-section');
+
+        if (searchContainer.classList.contains('hidden')) {
+            // Mostrar barra de búsqueda y ocultar título
+            mainHeader.classList.add('hidden');
+            searchContainer.classList.remove('hidden');
+            searchInput.focus();
+            
+            // Ocultar contenido principal si no hay búsqueda activa
+            document.getElementById('app-sections').classList.add('hidden');
+        } else {
+            // Ocultar barra de búsqueda y mostrar título
+            searchContainer.classList.add('hidden');
+            mainHeader.classList.remove('hidden');
+            
+            // Limpiar búsqueda y mostrar contenido principal
+            searchInput.value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            searchResultsSection.classList.add('hidden');
+            document.getElementById('app-sections').classList.remove('hidden');
+        }
+    }
+
+
+    // --- VIEW MANAGEMENT (Category View) ---
+    
+    /**
+     * Muestra la vista de lista de apps para una categoría.
+     */
+    function showCategoryView(categoryName) {
+        currentCategory = categoryName;
+
+        // 1. Update Header
+        document.getElementById('category-title').textContent = categoryName;
+        
+        // 2. Render Apps in Grid
+        renderCategoryGrid(categoryName);
+
+        // 3. Toggle Views
+        document.getElementById('home-view').classList.add('hidden');
+        document.getElementById('app-detail-view').classList.add('hidden');
+        document.getElementById('category-view').classList.remove('hidden');
+
+        window.location.hash = `category/${encodeURIComponent(categoryName)}`;
+    }
+
+    /**
+     * Oculta la vista de lista de categorías y regresa a la Home.
+     */
+    function hideCategoryView() {
+        // Limpiamos el estado y ocultamos la barra de búsqueda de categoría si estaba abierta
+        document.getElementById('category-header-main').classList.remove('hidden');
+        document.getElementById('category-search-bar-container').classList.add('hidden');
+        document.getElementById('category-search-input').value = '';
+        
+        // Toggle Views
+        document.getElementById('category-view').classList.add('hidden');
+        document.getElementById('home-view').classList.remove('hidden');
+        
+        currentCategory = null;
+        window.location.hash = '';
+    }
+    
+    /**
+     * Dibuja las apps en la rejilla de la vista de categoría.
+     */
+    async function renderCategoryGrid(categoryName, filterText = '') {
+        const grid = document.getElementById('category-app-grid');
+        const noResults = document.getElementById('category-no-results');
+        grid.innerHTML = '<div class="col-span-2 text-center p-10"><i class="fas fa-spinner fa-spin teal-main text-2xl"></i></div>';
+        grid.classList.remove('hidden');
+        noResults.classList.add('hidden');
+
+        let apps = [];
+
+        try {
+            if (categoryAppsCache[categoryName]) {
+                // Usar caché si está disponible
+                apps = categoryAppsCache[categoryName];
+            } else {
+                // Fetch si no está en caché (aunque la lógica de Home debería llenarla)
+                const categoryData = await fetchWithRetry(`${BASE_URL}/api/public/apps/categories?category=${categoryName}`);
+                apps = categoryData.apps || [];
+                categoryAppsCache[categoryName] = apps; // Guardar en caché
+            }
+        } catch (error) {
+            grid.innerHTML = `<p class="col-span-2 text-red-500 p-4 text-center">Error al cargar apps: ${error.message}</p>`;
+            return;
+        }
+
+
+        const filteredApps = apps.filter(app => {
+            const appTitle = app.name || app.title || ''; // FIX: Usar app.name
+            return appTitle.toLowerCase().includes(filterText.toLowerCase()) || 
+                   (app.developer || '').toLowerCase().includes(filterText.toLowerCase());
+        });
+        
+        grid.innerHTML = ''; // Limpiar el spinner
+
+        if (filteredApps.length > 0) {
+            filteredApps.forEach(app => {
+                grid.insertAdjacentHTML('beforeend', createAppGridItem(app));
+            });
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+        } else {
+            grid.classList.add('hidden');
+            noResults.classList.remove('hidden');
+        }
+    }
+
+    /**
+     * Alterna la visibilidad de la barra de búsqueda de categoría.
+     */
+    function toggleCategorySearch() {
+        const mainHeader = document.getElementById('category-header-main');
+        const searchContainer = document.getElementById('category-search-bar-container');
+        const searchInput = document.getElementById('category-search-input');
+        
+        if (searchContainer.classList.contains('hidden')) {
+            // Mostrar barra de búsqueda
+            mainHeader.classList.add('hidden');
+            searchContainer.classList.remove('hidden');
+            searchInput.focus();
+            
+        } else {
+            // Ocultar barra de búsqueda y resetear filtro
+            searchContainer.classList.add('hidden');
+            mainHeader.classList.remove('hidden');
+            searchInput.value = '';
+            renderCategoryGrid(currentCategory, ''); // Resetear filtro
+        }
+    }
+
+    /**
+     * Filtra las apps de la categoría actual mientras el usuario escribe.
+     */
+    function filterCategoryApps(value) {
+        if (currentCategory) {
+            renderCategoryGrid(currentCategory, value);
+        }
+    }
+
+
+    // --- VIEW MANAGEMENT (Detail View) ---
+
+    /**
+     * Muestra la vista de detalle para una app específica.
+     * @param {string} appId 
+     */
+    async function showDetailView(appId) {
+      document.getElementById('home-view').classList.add('hidden');
+      document.getElementById('category-view').classList.add('hidden');
+      document.getElementById('app-detail-view').classList.remove('hidden');
+      
+      // Limpiar y mostrar estados de carga
+      document.getElementById('detail-app-title').textContent = 'Cargando...';
+      document.getElementById('detail-app-name-header').textContent = 'Detalle de Aplicación';
+      
+      const detailView = document.getElementById('app-detail-view');
+      detailView.scrollTop = 0; // Scroll al inicio
+      
+      stopSliderAutoplay(); // Asegurar que no haya auto-scroll residual
+      document.getElementById('screenshot-slider').innerHTML = '<div class="screenshot-item w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 text-lg">Cargando imágenes...</div>';
+
+      try {
+          // Intentar la búsqueda directa por appId/fragmento
+          const data = await fetchWithRetry(`${BASE_URL}/api/public/apps/${appId}`);
+          const app = data.app;
+          
+          if (!app) {
+              throw new Error("No se encontraron detalles para esta aplicación.");
+          }
+
+          currentApp = app;
+          // FIX: Usar app.name como predeterminado para el título, como se solicitó.
+          const appTitle = app.name || app.title || 'App sin nombre';
+
+          // 1. Cargar Imágenes y Títulos
+          renderScreenshotSlider(app); // Cargar slider y auto-scroll
+          
+          // La imagen del icono ya no está dentro de detail-image-container
+          document.getElementById('detail-app-icon').src = app.icon || PLACEHOLDER_ICON;
+          document.getElementById('detail-app-icon').onerror = () => document.getElementById('detail-app-icon').src = PLACEHOLDER_ICON;
+          
+          document.getElementById('detail-app-title').textContent = appTitle;
+          document.getElementById('detail-app-name-header').textContent = appTitle;
+          document.getElementById('detail-developer-name').textContent = app.developer || 'Desconocido';
+
+          // 2. Cargar Metadatos
+          document.getElementById('detail-score').textContent = app.scoreText || 'N/A';
+          // Usar ratings tal como viene si no es number, o formatear si es number
+          const ratingsDisplay = typeof app.ratings === 'number' ? `${(app.ratings / 1000000).toFixed(1)}M Opiniones` : 'N/A Opiniones';
+          document.getElementById('detail-ratings').textContent = ratingsDisplay;
+          
+          document.getElementById('detail-installs').textContent = formatInstalls(app.installs);
+          document.getElementById('detail-category').textContent = app.genre || 'General';
+
+          // 3. Cargar Descripción (usando descriptionHTML para mantener formato)
+          document.getElementById('detail-description-full').innerHTML = app.descriptionHTML || app.description || 'Sin descripción detallada.';
+          
+          // 4. Cargar Fecha de Actualización
+          if (app.updated) {
+              const updatedDate = new Date(app.updated);
+              document.getElementById('detail-updated-date').textContent = updatedDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+          } else {
+              document.getElementById('detail-updated-date').textContent = 'Fecha no disponible';
+          }
+
+      } catch (error) {
+          stopSliderAutoplay();
+          document.getElementById('detail-app-title').textContent = 'Error';
+          document.getElementById('detail-description-full').innerHTML = `<p class="text-red-500">${error.message}</p>`;
+      }
+
+      // Update URL hash for "internal" navigation
+      window.location.hash = `detail/${appId}`;
+    }
+
+    /**
+     * Oculta la vista de detalle. Regresa a la vista anterior (Home o Categoría).
+     */
+    function hideDetailView() {
+      // Detener auto-scroll al salir
+      stopSliderAutoplay();
+
+      // Determinar a qué vista regresar
+      const referrerHash = window.location.hash;
+
+      document.getElementById('app-detail-view').classList.add('hidden');
+      currentApp = null; // Limpiar app actual
+
+      if (referrerHash.includes('category/')) {
+        // Regresar a la vista de categoría
+        document.getElementById('category-view').classList.remove('hidden');
+      } else {
+        // Regresar a la Home View
+        document.getElementById('home-view').classList.remove('hidden');
+        window.location.hash = '';
+      }
+    }
+
+    /**
+     * Simula la acción de instalar una aplicación.
+     */
+    function installApp() {
+        if (currentApp) {
+            showModal("¡Instalación Iniciada!", `Has iniciado la descarga de "${currentApp.name || currentApp.title}". La instalación comenzará en breve.`);
+        } else {
+            showModal("Error", "No se encontró la aplicación para instalar.");
+        }
+    }
+
+
+    // --- INITIALIZATION & ROUTING ---
+    function init() {
+      // 1. Cargar contenido de la Home
+      loadHomeContent();
+
+      // 2. Simple routing basado en hash para manejar Deep Links y refresco
+      const hash = window.location.hash;
+      if (hash.startsWith('#detail/')) {
+        const appId = hash.split('/')[1];
+        showDetailView(appId);
+      } else if (hash.startsWith('#category/')) {
+        const categoryName = decodeURIComponent(hash.split('/')[1]);
+        showCategoryView(categoryName);
+      } else {
+        // Aseguramos que solo la Home esté visible al inicio
+        document.getElementById('home-view').classList.remove('hidden');
+        document.getElementById('app-detail-view').classList.add('hidden');
+        document.getElementById('category-view').classList.add('hidden');
+      }
+
+      // 3. Add listener to handle back/forward browser buttons
+      window.addEventListener('hashchange', () => {
+        const newHash = window.location.hash;
+        
+        if (newHash.startsWith('#detail/')) {
+             // showDetailView ya maneja la visibilidad
+        } else if (newHash.startsWith('#category/')) {
+            const categoryName = decodeURIComponent(newHash.split('/')[1]);
+            if (currentCategory !== categoryName) {
+                showCategoryView(categoryName);
+            }
+        } else {
+            // Si el hash se limpia, volvemos a la Home
+            document.getElementById('app-detail-view').classList.add('hidden');
+            document.getElementById('category-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+        }
+      });
+    }
+
+    window.onload = init;
+  </script>
+
+</body>
+</html>
+
